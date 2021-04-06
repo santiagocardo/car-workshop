@@ -58,7 +58,7 @@ config :car_workshop, CarWorkshopWeb.Endpoint,
 config :car_workshop, CarWorkshopWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/(?!uploads).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/car_workshop_web/(live|views)/.*(ex)$",
       ~r"lib/car_workshop_web/templates/.*(eex)$"

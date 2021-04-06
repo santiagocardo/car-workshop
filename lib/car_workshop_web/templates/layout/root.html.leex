@@ -24,12 +24,10 @@
           >
             <i class="fas fa-bars"></i>
           </button>
-          <a
-            class="md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            href="../../index.html"
-          >
-            tecnicentro para autos
-          </a>
+          <%= live_patch "tecnicentro para autos",
+            to: Routes.page_path(@conn, :index),
+            class: "md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+          %>
           <ul class="md:hidden items-center flex flex-wrap list-none">
             <li class="inline-block relative">
               <a
@@ -116,12 +114,10 @@
             >
               <div class="flex flex-wrap">
                 <div class="w-6/12">
-                  <a
-                    class="md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                    href="../../index.html"
-                  >
-                    tecnicentro para autos
-                  </a>
+                  <%= live_patch "tecnicentro para autos",
+                    to: Routes.page_path(@conn, :index),
+                    class: "md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                  %>
                 </div>
                 <div class="w-6/12 flex justify-end">
                   <button
@@ -139,7 +135,7 @@
                 <input
                   type="text"
                   placeholder="Search"
-                  class="border-0 px-3 py-2 h-12 border border-solid border-gray-500 placeholder-gray-300 text-gray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+                  class="px-3 py-2 h-12 border border-solid border-gray-500 placeholder-gray-300 text-gray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
                 />
               </div>
             </form>
@@ -155,13 +151,12 @@
             <!-- Navigation -->
             <ul class="md:flex-col md:min-w-full flex flex-col list-none">
               <li class="items-center">
-                <a
-                  href="./dashboard.html"
-                  class="text-xs uppercase py-3 font-bold block text-blue-500 hover:text-blue-600"
-                >
-                  <i class="fas fa-tv mr-2 text-sm text-gray-300"></i>
-                  Registro
-                </a>
+                <%= live_patch to: Routes.vehicle_index_path(@conn, :new) do %>
+                  <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
+                    <i class="fas fa-tv mr-2 text-sm text-gray-300"></i>
+                    Registro
+                  </div>
+                <% end %>
               </li>
 
               <li class="items-center">
@@ -235,7 +230,7 @@
           </div>
         </div>
       </nav>
-      <main class="relative md:ml-64 bg-gray-50">
+      <div class="relative md:ml-64 bg-gray-50">
         <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
           <div
             class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4"
@@ -250,13 +245,13 @@
             >
               <div class="relative flex w-full flex-wrap items-stretch">
                 <span
-                  class="z-10 h-full leading-snug font-normal absolute text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+                  class="z-10 h-full leading-snug font-normal text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
                   ><i class="fas fa-search"></i
                 ></span>
                 <input
                   type="text"
                   placeholder="Search here..."
-                  class="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
+                  class="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
                 />
               </div>
             </form>
@@ -325,10 +320,10 @@
                           <h5
                             class="text-gray-400 uppercase font-bold text-xs"
                           >
-                            Traffic
+                            Vehículos Registrados
                           </h5>
                           <span class="font-semibold text-xl text-gray-700">
-                            350,897
+                            <%= count_vehicles() %>
                           </span>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">
@@ -362,10 +357,10 @@
                           <h5
                             class="text-gray-400 uppercase font-bold text-xs"
                           >
-                            New users
+                            Usuarios Registrados
                           </h5>
                           <span class="font-semibold text-xl text-gray-700">
-                            2,356
+                            <%= count_users() %>
                           </span>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">
@@ -488,7 +483,7 @@
             </div>
           </footer>
         </div>
-      </main>
+      </div>
     </div>
     <%# <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script> %>
     <script type="text/javascript">

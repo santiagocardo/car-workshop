@@ -18,6 +18,12 @@ defmodule CarWorkshopWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+
+    live "/vehicles/new", VehicleLive.Index, :new
+    live "/vehicles/:id/edit", VehicleLive.Index, :edit
+
+    live "/vehicles/:id", VehicleLive.Show, :show
+    live "/vehicles/:id/show/edit", VehicleLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
