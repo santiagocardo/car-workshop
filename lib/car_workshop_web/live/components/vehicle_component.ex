@@ -85,19 +85,23 @@ defmodule CarWorkshopWeb.VehicleComponent do
   end
 
   @google_drive_url "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
+  @google_drive_scope "https://www.googleapis.com/auth/drive.file"
+  @drive_parent_id Application.fetch_env!(:car_workshop, :drive_parent_id)
   defp presign_entry(entry, socket) do
+    {:ok, %{token: token}} = Goth.Token.for_scope(@google_drive_scope)
+
     fields = %{
       name: "#{entry.uuid}.#{ext(entry)}",
       content_type: entry.client_type,
-      parent: "parent_id",
-      token: "token"
+      parent: @drive_parent_id,
+      token: token
     }
 
     {:ok, %{uploader: "GoogleDriveMultipart", url: @google_drive_url, fields: fields}, socket}
   end
 
   defp send_registered_vehicle(vehicle, socket) do
-    {completed, []} = uploaded_entries(socket, :photos)
+    {completed, _} = uploaded_entries(socket, :photos)
 
     if Enum.count(completed) > 0 do
       send(self(), {:vehicle_registered, vehicle, true})

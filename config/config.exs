@@ -29,3 +29,11 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+drive_folder_id =
+  System.get_env("DRIVE_FOLDER_ID") ||
+    raise """
+    environment variable DRIVE_FOLDER_ID is missing.
+    """
+
+config :car_workshop, :drive_parent_id, drive_folder_id

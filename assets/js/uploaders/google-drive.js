@@ -73,11 +73,10 @@ export const uploadPhotos = (entries, onViewError) => {
         const response = JSON.parse(xhr.response)
         if (response.id) {
           ids = [response.id, ...ids]
+          setPhotosIds(ids)
         }
       }
       xhr.onerror = () => entry.error()
     }
   })
-
-  setPhotosIds(ids)
 }
