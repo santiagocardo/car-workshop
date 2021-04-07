@@ -21,22 +21,18 @@
     </h6>
     <div class="flex flex-wrap">
       <div class="w-full lg:w-4/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :identity_number, "RUT/cédula", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :identity_number,
-            class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-          %>
-          <%= error_tag f, :identity_number %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :identity_number,
+          f: f,
+          label: "RUT/cédula"
+        %>
       </div>
       <div class="w-full lg:w-4/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :name, "Nombre", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :name,
-            class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-          %>
-          <%= error_tag f, :name %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :name,
+          f: f,
+          label: "Nombre"
+        %>
       </div>
       <div class="w-full lg:w-4/12 px-4">
         <div class="relative w-full mb-3">
@@ -53,18 +49,18 @@
         </div>
       </div>
       <div class="w-full lg:w-4/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :address, "Dirección", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :address, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :address %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :address,
+          f: f,
+          label: "Dirección"
+        %>
       </div>
       <div class="w-full lg:w-4/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :city, "City", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :city, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :city %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :city,
+          f: f,
+          label: "Ciudad"
+        %>
       </div>
     </div>
   </div>

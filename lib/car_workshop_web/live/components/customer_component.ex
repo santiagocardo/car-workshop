@@ -37,6 +37,7 @@ defmodule CarWorkshopWeb.CustomerComponent do
     end
   end
 
+  @impl true
   def handle_event("save", %{"customer" => customer_params}, socket) do
     case Accounts.create_customer(customer_params) do
       {:ok, customer} ->

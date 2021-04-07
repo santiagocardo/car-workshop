@@ -21,32 +21,32 @@
     </h6>
     <div class="flex flex-wrap">
       <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :plate, "Placa", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :plate, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :plate %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :plate,
+          f: f,
+          label: "Placa"
+        %>
       </div>
       <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :brand, "Marca", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :brand, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :brand %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :brand,
+          f: f,
+          label: "Marca"
+        %>
       </div>
       <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :model, "Modelo", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :model, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :model %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :model,
+          f: f,
+          label: "Modelo"
+        %>
       </div>
       <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :color, "Color", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :color, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :color %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :color,
+          f: f,
+          label: "Color"
+        %>
       </div>
       <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
         <div class="relative w-full mb-3">
@@ -70,11 +70,11 @@
         </div>
       </div>
       <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
-        <div class="relative w-full mb-3">
-          <%= label f, :chassis, "Chasis", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-          <%= text_input f, :chassis, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
-          <%= error_tag f, :chassis %>
-        </div>
+        <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
+          id: :chassis,
+          f: f,
+          label: "Chasis"
+        %>
       </div>
     </div>
 

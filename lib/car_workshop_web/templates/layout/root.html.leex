@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="theme-color" content="#000000" />
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "CarWorkshop", suffix: " · Phoenix Framework" %>
+    <%= live_title_tag assigns[:page_title] || "Tecnicentro para Autos", suffix: " · Tecnicentro para Autos" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
@@ -151,7 +151,7 @@
             <!-- Navigation -->
             <ul class="md:flex-col md:min-w-full flex flex-col list-none">
               <li class="items-center">
-                <%= live_patch to: Routes.vehicle_index_path(@conn, :new) do %>
+                <%= live_redirect to: Routes.vehicle_index_path(@conn, :new) do %>
                   <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
                     <i class="fas fa-tv mr-2 text-sm text-gray-300"></i>
                     Registro
