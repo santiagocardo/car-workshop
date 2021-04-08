@@ -109,7 +109,10 @@
         <div class="relative w-full mb-3">
           <%= for {_ref, msg} <- @uploads.photos.errors do %>
             <p class="alert alert-danger">
-              <%= Phoenix.Naming.humanize(msg) %>
+              <%= CarWorkshopWeb.ErrorHelpers.translate_error({
+                Phoenix.Naming.humanize(msg),
+                []})
+              %>
             </p>
           <% end %>
         </div>
@@ -144,7 +147,7 @@
       <%= for photo_url <- @vehicle.photos do %>
         <div class="w-full lg:w-6/12 px-4">
           <div class="relative w-full mb-3">
-            <img load="lazy" src="https://drive.google.com/uc?id=<%= photo_url %>" height="150" />
+            <img load="lazy" src="<%= photo_url %>" height="150" />
           </div>
         </div>
       <% end %>

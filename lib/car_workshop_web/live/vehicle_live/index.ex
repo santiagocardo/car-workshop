@@ -17,16 +17,18 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
   @impl true
   def handle_event("set-photos-ids", %{"photos_ids" => photos_ids}, socket) do
     photos_ids = String.split(photos_ids, ",")
-    put_photos_ids(photos_ids, socket)
+    put_photos_urls(photos_ids, socket)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
+    |> assign(:page_title, "Editar Vehículo")
     |> assign(:vehicle, Vehicles.get_vehicle!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
+    |> assign(:page_title, "Registrar Vehículo")
     |> assign(:vehicle, %Vehicle{})
     |> assign(:customer, %Customer{})
   end
@@ -45,14 +47,19 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
         {:vehicle_registered, _vehicle, false},
         %{assigns: %{live_action: :new}} = socket
       ),
-      do: put_photos_ids([], socket)
+      do: put_photos_urls([], socket)
 
   @impl true
   def handle_info({:vehicle_registered, vehicle, false}, socket),
     do: {:noreply, push_redirect(socket, to: Routes.vehicle_show_path(socket, :show, vehicle))}
 
-  defp put_photos_ids(photos_ids, socket) do
-    {:ok, vehicle} = Vehicles.update_vehicle(socket.assigns.vehicle, %{"photos" => photos_ids})
+  defp put_photos_urls(photos_ids, socket) do
+    photos_urls = Enum.map(photos_ids, fn id -> "https://drive.google.com/uc?id=#{id}" end)
+
+    {:ok, vehicle} =
+      Vehicles.update_vehicle(socket.assigns.vehicle, %{
+        "photos" => photos_urls
+      })
 
     {:noreply, push_redirect(socket, to: Routes.vehicle_show_path(socket, :show, vehicle))}
   end
