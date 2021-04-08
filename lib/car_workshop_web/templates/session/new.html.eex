@@ -1,0 +1,15 @@
+<%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+  <div class="relative w-full mb-3">
+    <%= label f, :username, "Usuario", class: "block uppercase text-blueGray-600 text-xs font-bold mb-2" %>
+    <%= text_input f, :username, class: "border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
+    <%= error_tag f, :username %>
+  </div>
+  <div class="relative w-full mb-3">
+    <%= label f, :password, "Contraseña", class: "block uppercase text-blueGray-600 text-xs font-bold mb-2" %>
+    <%= password_input f, :password, class: "border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
+    <%= error_tag f, :password %>
+  </div>
+  <div class="text-center mt-6">
+    <%= submit "Iniciar Sesión", class: "bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" %>
+  </div>
+<% end %>

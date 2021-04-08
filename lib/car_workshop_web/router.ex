@@ -8,6 +8,7 @@ defmodule CarWorkshopWeb.Router do
     plug :put_root_layout, {CarWorkshopWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CarWorkshopWeb.Auth
   end
 
   pipeline :api do
@@ -15,7 +16,7 @@ defmodule CarWorkshopWeb.Router do
   end
 
   scope "/", CarWorkshopWeb do
-    pipe_through :browser
+    pipe_through [:browser, :authenticate_user]
 
     live "/", PageLive, :index
 
@@ -24,6 +25,12 @@ defmodule CarWorkshopWeb.Router do
 
     live "/vehicles/:id", VehicleLive.Show, :show
     live "/vehicles/:id/show/edit", VehicleLive.Show, :edit
+  end
+
+  scope "/sessions", CarWorkshopWeb do
+    pipe_through :browser
+
+    resources "/", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

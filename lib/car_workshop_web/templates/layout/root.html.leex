@@ -26,7 +26,7 @@
           </button>
           <%= live_patch "tecnicentro para autos",
             to: Routes.page_path(@conn, :index),
-            class: "md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+            class: "md:block text-left md:pb-2 text-gray-800 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
           %>
           <ul class="md:hidden items-center flex flex-wrap list-none">
             <li class="inline-block relative">
@@ -116,7 +116,7 @@
                 <div class="w-6/12">
                   <%= live_patch "tecnicentro para autos",
                     to: Routes.page_path(@conn, :index),
-                    class: "md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                    class: "md:block text-left md:pb-2 text-gray-800 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                   %>
                 </div>
                 <div class="w-6/12 flex justify-end">
@@ -238,7 +238,7 @@
             <a
               class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
               href="./index.html"
-              >ADMIN</a
+              >Hola, <%= @conn.assigns.current_user.name %></a
             >
             <form
               class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"

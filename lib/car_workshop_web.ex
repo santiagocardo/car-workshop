@@ -66,6 +66,7 @@ defmodule CarWorkshopWeb do
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import CarWorkshopWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

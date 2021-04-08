@@ -1,0 +1,130 @@
+<!--
+
+=========================================================
+* Notus JS - v1.1.0 based on Tailwind Starter Kit by Creative Tim
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/notus-js
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md)
+
+* Tailwind Starter Kit Page: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/presentation
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="theme-color" content="#000000" />
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "Tecnicentro para Autos", suffix: " · Tecnicentro para Autos" %>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body class="text-blueGray-700 antialiased">
+    <main>
+      <section class="relative w-full h-full py-20 min-h-screen">
+        <div
+          class="absolute top-0 w-full h-full bg-blueGray-800 bg-full bg-no-repeat"
+        ></div>
+        <div class="container mx-auto px-4 h-full">
+          <div class="flex content-center items-center justify-center h-full">
+            <div class="w-full lg:w-4/12 px-4">
+              <div
+                class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
+              >
+                <div class="rounded-t mb-0 px-6 py-6">
+                  <div class="text-center mb-3">
+                    <h6 class="text-blueGray-500 text-sm font-bold">
+                      Tecnicentro para Autos
+                    </h6>
+                  </div>
+                  <div class="btn-wrapper text-center">
+                    <button
+                      class="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                      type="button"
+                    >
+                      <img
+                        alt="logo"
+                        class="w-5 mr-1"
+                        src="<%= Routes.static_path(@conn, "/images/sketch.jpg") %>"
+                      />Santiago Cardona
+                    </button>
+                  </div>
+                  <hr class="mt-6 border-b-1 border-blueGray-300" />
+                </div>
+                <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                  <%= @inner_content %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="absolute w-full bottom-0 bg-blueGray-800 pb-6">
+          <div class="container mx-auto px-4">
+            <hr class="mb-6 border-b-1 border-blueGray-600" />
+            <div
+              class="flex flex-wrap items-center md:justify-between justify-center"
+            >
+              <div class="w-full md:w-4/12 px-4">
+                <div
+                  class="text-sm text-white font-semibold py-1 text-center md:text-left"
+                >
+                  Copyright © <span id="get-current-year"></span>
+                  <a
+                    href="https://www.santiagocardona.tech/"
+                    class="text-white hover:text-blueGray-300 text-sm font-semibold py-1"
+                    target="_blank"
+                    >Santiago Cardona</a
+                  >
+                </div>
+              </div>
+              <div class="w-full md:w-8/12 px-4">
+                <ul
+                  class="flex flex-wrap list-none md:justify-end justify-center"
+                >
+                  <li>
+                    <a
+                      href="https://www.creative-tim.com?ref=njs-login"
+                      class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3"
+                      >Creative Tim</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.creative-tim.com/presentation?ref=njs-login"
+                      class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3"
+                      >About Us</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="http://blog.creative-tim.com?ref=njs-login"
+                      class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3"
+                      >Blog</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md?ref=njs-login"
+                      class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3"
+                      >MIT License</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
