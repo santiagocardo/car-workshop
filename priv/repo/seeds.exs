@@ -9,9 +9,3 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-
-CarWorkshop.Accounts.create_user(%{
-  name: "Admin",
-  username: "admin",
-  password: "admin2021"
-})
