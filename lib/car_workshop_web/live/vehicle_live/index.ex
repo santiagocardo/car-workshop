@@ -38,19 +38,18 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
     do: {:noreply, assign(socket, customer: customer, view_to_show: view_to_show)}
 
   @impl true
-  def handle_info({:vehicle_registered, vehicle, photos_uploaded?}, socket)
-      when photos_uploaded? == true,
+  def handle_info({:vehicle_registered, vehicle, _uploaded_photos? = true}, socket)
       do: {:noreply, assign(socket, vehicle: vehicle, view_to_show: :vehicle_view)}
 
   @impl true
   def handle_info(
-        {:vehicle_registered, _vehicle, false},
+        {:vehicle_registered, _vehicle, _uploaded_photos? = false},
         %{assigns: %{live_action: :new}} = socket
       ),
       do: put_photos_urls([], socket)
 
   @impl true
-  def handle_info({:vehicle_registered, vehicle, false}, socket),
+  def handle_info({:vehicle_registered, vehicle, _uploaded_photos? = false}, socket),
     do: {:noreply, push_redirect(socket, to: Routes.vehicle_show_path(socket, :show, vehicle))}
 
   defp put_photos_urls(photos_ids, socket) do
