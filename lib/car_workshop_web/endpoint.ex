@@ -11,7 +11,7 @@ defmodule CarWorkshopWeb.Endpoint do
   ]
 
   socket "/socket", CarWorkshopWeb.UserSocket,
-    websocket: true,
+    websocket: [timeout: 45_000],
     longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
