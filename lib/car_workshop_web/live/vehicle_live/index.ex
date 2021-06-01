@@ -38,8 +38,8 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
     do: {:noreply, assign(socket, customer: customer, view_to_show: view_to_show)}
 
   @impl true
-  def handle_info({:vehicle_registered, vehicle, _uploaded_photos? = true}, socket)
-      do: {:noreply, assign(socket, vehicle: vehicle, view_to_show: :vehicle_view)}
+  def handle_info({:vehicle_registered, vehicle, _uploaded_photos? = true}, socket),
+    do: {:noreply, assign(socket, vehicle: vehicle, view_to_show: :vehicle_view)}
 
   @impl true
   def handle_info(
