@@ -2,6 +2,7 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
   use CarWorkshopWeb, :live_view
 
   alias CarWorkshop.Vehicles
+  alias CarWorkshop.Accounts
   alias CarWorkshop.{Vehicles.Vehicle, Accounts.Customer}
 
   @impl true
@@ -25,38 +26,55 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
   end
 
   @impl true
+  def handle_info({:vehicle, vehicle, :existing}, socket),
+    do: {:noreply, assign(socket, vehicle: vehicle, view_to_show: :vehicle_view)}
+
+  @impl true
+  def handle_info({:vehicle, vehicle_params, :photos_uploaded}, socket),
+    do: {:noreply, assign(socket, vehicle_params: vehicle_params, view_to_show: :vehicle_view)}
+
+  @impl true
   def handle_info(
-        {:vehicle_registered, vehicle, :no_photos_uploaded},
+        {:vehicle, vehicle_params, :no_photos_uploaded},
         %{assigns: %{live_action: :new}} = socket
       ),
       do:
         {:noreply,
-         assign(socket, vehicle: vehicle, photos_urls: [], view_to_show: :customer_view)}
+         assign(socket,
+           vehicle_params: vehicle_params,
+           photos_urls: [],
+           view_to_show: :customer_view
+         )}
 
   @impl true
-  def handle_info({:vehicle_registered, vehicle, :no_photos_uploaded}, socket),
-    do: {:noreply, assign(socket, vehicle: vehicle, view_to_show: :customer_view)}
+  def handle_info({:vehicle, vehicle_params, :no_photos_uploaded}, socket),
+    do: {:noreply, assign(socket, vehicle_params: vehicle_params, view_to_show: :customer_view)}
 
   @impl true
-  def handle_info({:vehicle_registered, vehicle, _}, socket),
-    do: {:noreply, assign(socket, vehicle: vehicle, view_to_show: :vehicle_view)}
-
-  @impl true
-  def handle_info({:customer_registered, customer, :existing}, socket),
+  def handle_info({:customer, customer, :existing}, socket),
     do: {:noreply, assign(socket, customer: customer, view_to_show: :customer_view)}
 
   @impl true
-  def handle_info({:customer_registered, customer, :saved}, socket) do
-    {:ok, vehicle} =
-      Vehicles.update_vehicle(socket.assigns.vehicle, %{
-        "photos" => socket.assigns.photos_urls,
-        "customer_id" => customer.id
-      })
+  def handle_info({:customer, customer_params, :save}, socket) do
+    case Accounts.create_customer(customer_params) do
+      {:ok, customer} ->
+        vehicle_params =
+          socket.assigns.vehicle_params
+          |> Map.put("customer_id", customer.id)
+          |> Map.put("photos", socket.assigns.photos_urls)
 
-    {:noreply,
-     push_redirect(socket,
-       to: Routes.vehicle_show_path(socket, :show, vehicle)
-     )}
+        case Vehicles.create_vehicle(vehicle_params) do
+          {:ok, vehicle} ->
+            {:noreply,
+             push_redirect(socket, to: Routes.vehicle_show_path(socket, :show, vehicle))}
+
+          {:error, _} ->
+            {:noreply, push_redirect(socket, to: Routes.vehicle_index_path(socket, :new))}
+        end
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do

@@ -32,8 +32,7 @@ defmodule CarWorkshop.Vehicles.Vehicle do
       :fuel_type,
       :chassis,
       :notes,
-      :photos,
-      :customer_id
+      :photos
     ])
     |> validate_required([
       :plate,
@@ -43,9 +42,16 @@ defmodule CarWorkshop.Vehicles.Vehicle do
       :class,
       :km,
       :fuel_type,
-      :customer_id
+      :notes
     ])
     |> validate_length(:plate, min: 6, max: 6)
     |> validate_number(:km, greater_than: 0)
+  end
+
+  def register_changeset(vehicle, attrs) do
+    vehicle
+    |> changeset(attrs)
+    |> cast(attrs, [:customer_id])
+    |> validate_required([:customer_id])
   end
 end

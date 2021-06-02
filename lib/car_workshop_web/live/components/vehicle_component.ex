@@ -40,7 +40,7 @@ defmodule CarWorkshopWeb.VehicleComponent do
           {:noreply, assign(socket, changeset: changeset)}
 
         vehicle ->
-          send(self(), {:vehicle_registered, vehicle, :existing})
+          send(self(), {:vehicle, vehicle, :existing})
 
           {:noreply, socket}
       end
@@ -51,13 +51,18 @@ defmodule CarWorkshopWeb.VehicleComponent do
 
   @impl true
   def handle_event("save", %{"vehicle" => vehicle_params}, socket) do
-    case Vehicles.create_vehicle(vehicle_params) do
-      {:ok, vehicle} ->
-        send_registered_vehicle(vehicle, socket)
+    changeset =
+      socket.assigns.vehicle
+      |> Vehicles.change_vehicle(vehicle_params)
+      |> Map.put(:action, :validate)
+
+    case Enum.count(changeset.errors) do
+      0 ->
+        register_vehicle(vehicle_params, socket)
 
         {:noreply, socket}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      _ ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
@@ -88,13 +93,13 @@ defmodule CarWorkshopWeb.VehicleComponent do
     {:ok, %{uploader: "GoogleDriveMultipart", url: @google_drive_url, fields: fields}, socket}
   end
 
-  defp send_registered_vehicle(vehicle, socket) do
+  defp register_vehicle(vehicle_params, socket) do
     {completed, _} = uploaded_entries(socket, :photos)
 
     if Enum.count(completed) > 0 do
-      send(self(), {:vehicle_registered, vehicle, :saved})
+      send(self(), {:vehicle, vehicle_params, :photos_uploaded})
     else
-      send(self(), {:vehicle_registered, vehicle, :no_photos_uploaded})
+      send(self(), {:vehicle, vehicle_params, :no_photos_uploaded})
     end
   end
 end

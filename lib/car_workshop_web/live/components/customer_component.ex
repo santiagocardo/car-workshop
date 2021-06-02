@@ -28,7 +28,7 @@ defmodule CarWorkshopWeb.CustomerComponent do
           {:noreply, assign(socket, changeset: changeset)}
 
         customer ->
-          send(self(), {:customer_registered, customer, :existing})
+          send(self(), {:customer, customer, :existing})
 
           {:noreply, socket}
       end
@@ -39,13 +39,18 @@ defmodule CarWorkshopWeb.CustomerComponent do
 
   @impl true
   def handle_event("save", %{"customer" => customer_params}, socket) do
-    case Accounts.create_customer(customer_params) do
-      {:ok, customer} ->
-        send(self(), {:customer_registered, customer, :saved})
+    changeset =
+      socket.assigns.customer
+      |> Accounts.change_customer(customer_params)
+      |> Map.put(:action, :validate)
+
+    case Enum.count(changeset.errors) do
+      0 ->
+        send(self(), {:customer, customer_params, :save})
 
         {:noreply, socket}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      _ ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end

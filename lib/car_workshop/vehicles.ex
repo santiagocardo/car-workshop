@@ -56,7 +56,7 @@ defmodule CarWorkshop.Vehicles do
       case get_vehicle_by_plate(attrs["plate"]) do
         nil ->
           %Vehicle{}
-          |> Vehicle.changeset(attrs)
+          |> Vehicle.register_changeset(attrs)
           |> Repo.insert()
 
         vehicle ->
@@ -80,7 +80,7 @@ defmodule CarWorkshop.Vehicles do
   """
   def update_vehicle(%Vehicle{} = vehicle, attrs) do
     vehicle
-    |> Vehicle.changeset(attrs)
+    |> Vehicle.register_changeset(attrs)
     |> Repo.update()
   end
 
