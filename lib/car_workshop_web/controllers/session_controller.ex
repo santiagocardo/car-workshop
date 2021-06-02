@@ -7,7 +7,7 @@ defmodule CarWorkshopWeb.SessionController do
 
   def new(conn, _params) do
     if get_session(conn, :user_id) do
-      redirect(conn, to: Routes.page_path(conn, :index))
+      redirect(conn, to: Routes.vehicle_index_path(conn, :new))
     else
       render(conn, "new.html")
     end
@@ -19,7 +19,7 @@ defmodule CarWorkshopWeb.SessionController do
         conn
         |> CarWorkshopWeb.Auth.login(user)
         |> put_flash(:info, "Welcome back!")
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> redirect(to: Routes.vehicle_index_path(conn, :new))
 
       {:error, _reason} ->
         conn

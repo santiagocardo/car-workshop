@@ -40,7 +40,7 @@ defmodule CarWorkshopWeb.VehicleComponent do
           {:noreply, assign(socket, changeset: changeset)}
 
         vehicle ->
-          send(self(), {:vehicle_registered, vehicle, true})
+          send(self(), {:vehicle_registered, vehicle, :existing})
 
           {:noreply, socket}
       end
@@ -51,8 +51,6 @@ defmodule CarWorkshopWeb.VehicleComponent do
 
   @impl true
   def handle_event("save", %{"vehicle" => vehicle_params}, socket) do
-    vehicle_params = put_customer_id(vehicle_params, socket)
-
     case Vehicles.create_vehicle(vehicle_params) do
       {:ok, vehicle} ->
         send_registered_vehicle(vehicle, socket)
@@ -67,16 +65,6 @@ defmodule CarWorkshopWeb.VehicleComponent do
   @impl true
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :photos, ref)}
-  end
-
-  defp put_customer_id(vehicle_params, socket) do
-    customer_id =
-      case socket.assigns.customer_id do
-        nil -> socket.assigns.vehicle.customer_id
-        customer_id -> customer_id
-      end
-
-    Map.put(vehicle_params, "customer_id", customer_id)
   end
 
   defp ext(entry) do
@@ -104,9 +92,9 @@ defmodule CarWorkshopWeb.VehicleComponent do
     {completed, _} = uploaded_entries(socket, :photos)
 
     if Enum.count(completed) > 0 do
-      send(self(), {:vehicle_registered, vehicle, true})
+      send(self(), {:vehicle_registered, vehicle, :saved})
     else
-      send(self(), {:vehicle_registered, vehicle, false})
+      send(self(), {:vehicle_registered, vehicle, :no_photos_uploaded})
     end
   end
 end

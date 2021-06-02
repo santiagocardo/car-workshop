@@ -28,7 +28,7 @@ defmodule CarWorkshopWeb.CustomerComponent do
           {:noreply, assign(socket, changeset: changeset)}
 
         customer ->
-          send(self(), {:customer_registered, customer, :customer_view})
+          send(self(), {:customer_registered, customer, :existing})
 
           {:noreply, socket}
       end
@@ -41,7 +41,7 @@ defmodule CarWorkshopWeb.CustomerComponent do
   def handle_event("save", %{"customer" => customer_params}, socket) do
     case Accounts.create_customer(customer_params) do
       {:ok, customer} ->
-        send(self(), {:customer_registered, customer, :vehicle_view})
+        send(self(), {:customer_registered, customer, :saved})
 
         {:noreply, socket}
 

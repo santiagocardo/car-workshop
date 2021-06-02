@@ -485,7 +485,7 @@
         </div>
       </div>
     </div>
-    <%# <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script> %>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     <script type="text/javascript">
       /* Make dynamic date appear */
       (function () {
@@ -509,9 +509,9 @@
         while (element.nodeName !== "A") {
           element = element.parentNode;
         }
-        // Popper.createPopper(element, document.getElementById(dropdownID), {
-          // placement: "bottom-start",
-        // });
+        Popper.createPopper(element, document.getElementById(dropdownID), {
+          placement: "bottom-start",
+        });
         document.getElementById(dropdownID).classList.toggle("hidden");
         document.getElementById(dropdownID).classList.toggle("block");
       }
