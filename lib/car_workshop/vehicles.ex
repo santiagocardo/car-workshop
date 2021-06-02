@@ -51,7 +51,7 @@ defmodule CarWorkshop.Vehicles do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_vehicle(attrs \\ %{}, after_save_cb \\ &{:ok, &1}) do
+  def register_vehicle(attrs \\ %{}, after_save_cb \\ &{:ok, &1}) do
     vehicle =
       case get_vehicle_by_plate(attrs["plate"]) do
         nil ->

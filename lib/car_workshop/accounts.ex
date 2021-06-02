@@ -52,7 +52,7 @@ defmodule CarWorkshop.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_customer(attrs \\ %{}) do
+  def register_customer(attrs \\ %{}) do
     case get_customer_by_identity_number(attrs["identity_number"]) do
       nil ->
         %Customer{}

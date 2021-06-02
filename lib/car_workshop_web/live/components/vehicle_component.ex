@@ -29,15 +29,18 @@ defmodule CarWorkshopWeb.VehicleComponent do
   def handle_event("validate", %{"vehicle" => vehicle_params}, socket) do
     plate = vehicle_params["plate"]
 
-    changeset =
-      socket.assigns.vehicle
-      |> Vehicles.change_vehicle(vehicle_params)
-      |> Map.put(:action, :validate)
+    validation_response = fn socket, vehicle_params ->
+      {:noreply,
+       assign(
+         socket,
+         changeset: validate_changeset(vehicle_params, socket)
+       )}
+    end
 
     if String.length(plate) == 6 do
       case Vehicles.get_vehicle_by_plate(plate) do
         nil ->
-          {:noreply, assign(socket, changeset: changeset)}
+          validation_response.(socket, vehicle_params)
 
         vehicle ->
           send(self(), {:vehicle, vehicle, :existing})
@@ -45,19 +48,16 @@ defmodule CarWorkshopWeb.VehicleComponent do
           {:noreply, socket}
       end
     else
-      {:noreply, assign(socket, changeset: changeset)}
+      validation_response.(socket, vehicle_params)
     end
   end
 
   @impl true
   def handle_event("save", %{"vehicle" => vehicle_params}, socket) do
-    changeset =
-      socket.assigns.vehicle
-      |> Vehicles.change_vehicle(vehicle_params)
-      |> Map.put(:action, :validate)
+    changeset = validate_changeset(vehicle_params, socket)
 
-    case Enum.count(changeset.errors) do
-      0 ->
+    case changeset.errors do
+      [] ->
         register_vehicle(vehicle_params, socket)
 
         {:noreply, socket}
@@ -101,5 +101,11 @@ defmodule CarWorkshopWeb.VehicleComponent do
     else
       send(self(), {:vehicle, vehicle_params, :no_photos_uploaded})
     end
+  end
+
+  defp validate_changeset(vehicle_params, socket) do
+    socket.assigns.vehicle
+    |> Vehicles.change_vehicle(vehicle_params)
+    |> Map.put(:action, :validate)
   end
 end

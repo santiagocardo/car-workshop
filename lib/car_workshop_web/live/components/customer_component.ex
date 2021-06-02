@@ -17,15 +17,18 @@ defmodule CarWorkshopWeb.CustomerComponent do
   def handle_event("validate", %{"customer" => customer_params}, socket) do
     idn = customer_params["identity_number"]
 
-    changeset =
-      socket.assigns.customer
-      |> Accounts.change_customer(customer_params)
-      |> Map.put(:action, :validate)
+    validation_response = fn socket, customer_params ->
+      {:noreply,
+       assign(
+         socket,
+         changeset: validate_changeset(customer_params, socket)
+       )}
+    end
 
     if String.length(idn) > 7 and socket.assigns.action == :new do
       case Accounts.get_customer_by_identity_number(idn) do
         nil ->
-          {:noreply, assign(socket, changeset: changeset)}
+          validation_response.(socket, customer_params)
 
         customer ->
           send(self(), {:customer, customer, :existing})
@@ -33,19 +36,16 @@ defmodule CarWorkshopWeb.CustomerComponent do
           {:noreply, socket}
       end
     else
-      {:noreply, assign(socket, changeset: changeset)}
+      validation_response.(socket, customer_params)
     end
   end
 
   @impl true
   def handle_event("save", %{"customer" => customer_params}, socket) do
-    changeset =
-      socket.assigns.customer
-      |> Accounts.change_customer(customer_params)
-      |> Map.put(:action, :validate)
+    changeset = validate_changeset(customer_params, socket)
 
-    case Enum.count(changeset.errors) do
-      0 ->
+    case changeset.errors do
+      [] ->
         send(self(), {:customer, customer_params, :save})
 
         {:noreply, socket}
@@ -53,5 +53,11 @@ defmodule CarWorkshopWeb.CustomerComponent do
       _ ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp validate_changeset(customer_params, socket) do
+    socket.assigns.customer
+    |> Accounts.change_customer(customer_params)
+    |> Map.put(:action, :validate)
   end
 end

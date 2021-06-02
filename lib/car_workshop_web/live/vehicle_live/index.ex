@@ -37,14 +37,14 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
   def handle_info(
         {:vehicle, vehicle_params, :no_photos_uploaded},
         %{assigns: %{live_action: :new}} = socket
-      ),
-      do:
-        {:noreply,
-         assign(socket,
-           vehicle_params: vehicle_params,
-           photos_urls: [],
-           view_to_show: :customer_view
-         )}
+      ) do
+    {:noreply,
+     assign(socket,
+       vehicle_params: vehicle_params,
+       photos_urls: [],
+       view_to_show: :customer_view
+     )}
+  end
 
   @impl true
   def handle_info({:vehicle, vehicle_params, :no_photos_uploaded}, socket),
@@ -56,14 +56,14 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
 
   @impl true
   def handle_info({:customer, customer_params, :save}, socket) do
-    case Accounts.create_customer(customer_params) do
+    case Accounts.register_customer(customer_params) do
       {:ok, customer} ->
         vehicle_params =
           socket.assigns.vehicle_params
           |> Map.put("customer_id", customer.id)
           |> Map.put("photos", socket.assigns.photos_urls)
 
-        case Vehicles.create_vehicle(vehicle_params) do
+        case Vehicles.register_vehicle(vehicle_params) do
           {:ok, vehicle} ->
             {:noreply,
              push_redirect(socket, to: Routes.vehicle_show_path(socket, :show, vehicle))}
