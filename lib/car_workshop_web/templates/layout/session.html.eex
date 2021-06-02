@@ -25,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="theme-color" content="#000000" />
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "Tecnicentro para Autos", suffix: " · Tecnicentro para Autos" %>
+    <%= live_title_tag assigns[:page_title] || "Tecnicentro para Autos S.A.S", suffix: " · Tecnicentro para Autos S.A.S" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
@@ -44,7 +44,7 @@
                 <div class="rounded-t mb-0 px-6 py-6">
                   <div class="text-center mb-3">
                     <h6 class="text-blueGray-500 text-sm font-bold">
-                      Tecnicentro para Autos
+                      Tecnicentro para Autos S.A.S
                     </h6>
                   </div>
                   <div class="btn-wrapper text-center">
