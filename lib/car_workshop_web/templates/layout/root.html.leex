@@ -8,6 +8,10 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "Tecnicentro para Autos S.A.S", suffix: " · Tecnicentro para Autos S.A.S" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body class="text-gray-500 antialiased">
@@ -160,23 +164,12 @@
               </li>
 
               <li class="items-center">
-                <a
-                  href="./maps.html"
-                  class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500"
-                >
-                  <i class="fas fa-map-marked mr-2 text-sm text-gray-300"></i>
-                  Diagnóstico
-                </a>
-              </li>
-
-              <li class="items-center">
-                <a
-                  href="./settings.html"
-                  class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500"
-                >
-                  <i class="fas fa-tools mr-2 text-sm opacity-75"></i>
-                  Orden de trabajo
-                </a>
+                <%= live_redirect to: Routes.work_order_index_path(@conn, :index) do %>
+                  <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
+                    <i class="fas fa-tools mr-2 text-sm opacity-75"></i>
+                    Orden de trabajo
+                  </div>
+                <% end %>
               </li>
 
               <li class="items-center">
@@ -232,17 +225,11 @@
       </nav>
       <div class="relative md:ml-64 bg-gray-50">
         <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
-          <div
-            class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4"
-          >
-            <a
-              class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
-              href="./index.html"
-              >Hola, <%= @conn.assigns.current_user.name %></a
-            >
-            <form
-              class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
-            >
+          <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
+            <span class="text-white text-sm uppercase hidden lg:inline-block font-semibold">
+              Hola, <%= @conn.assigns.current_user.name %>
+            </span>
+            <form class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
               <div class="relative flex w-full flex-wrap items-stretch">
                 <span
                   class="z-10 h-full leading-snug font-normal text-center text-gray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
@@ -314,12 +301,8 @@
                   >
                     <div class="flex-auto p-4">
                       <div class="flex flex-wrap">
-                        <div
-                          class="relative w-full pr-4 max-w-full flex-grow flex-1"
-                        >
-                          <h5
-                            class="text-gray-400 uppercase font-bold text-xs"
-                          >
+                        <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                          <h5 class="text-gray-400 uppercase font-bold text-xs">
                             Vehículos Registrados
                           </h5>
                           <span class="font-semibold text-xl text-gray-700">
@@ -351,16 +334,12 @@
                   >
                     <div class="flex-auto p-4">
                       <div class="flex flex-wrap">
-                        <div
-                          class="relative w-full pr-4 max-w-full flex-grow flex-1"
-                        >
-                          <h5
-                            class="text-gray-400 uppercase font-bold text-xs"
-                          >
-                            Usuarios Registrados
+                        <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                          <h5 class="text-gray-400 uppercase font-bold text-xs">
+                            Órdenes de Trabajo
                           </h5>
                           <span class="font-semibold text-xl text-gray-700">
-                            <%= count_users() %>
+                            <%= count_work_orders() %>
                           </span>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">
@@ -386,16 +365,12 @@
                   >
                     <div class="flex-auto p-4">
                       <div class="flex flex-wrap">
-                        <div
-                          class="relative w-full pr-4 max-w-full flex-grow flex-1"
-                        >
-                          <h5
-                            class="text-gray-400 uppercase font-bold text-xs"
-                          >
-                            Órdenes de Trabajo
+                        <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                        <h5 class="text-gray-400 uppercase font-bold text-xs">
+                            Usuarios Registrados
                           </h5>
                           <span class="font-semibold text-xl text-gray-700">
-                            24
+                            <%= count_users() %>
                           </span>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">

@@ -66,7 +66,7 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
         case Vehicles.register_vehicle(vehicle_params) do
           {:ok, vehicle} ->
             {:noreply,
-             push_redirect(socket, to: Routes.vehicle_show_path(socket, :show, vehicle))}
+             push_redirect(socket, to: Routes.work_order_index_path(socket, :new, vehicle.plate))}
 
           {:error, _} ->
             {:noreply, push_redirect(socket, to: Routes.vehicle_index_path(socket, :new))}
