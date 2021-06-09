@@ -22,6 +22,7 @@
           %>
         </div>
       </div>
+
       <div class="block w-full overflow-x-auto">
         <!-- table -->
         <table class="items-center w-full bg-transparent border-collapse">
@@ -44,18 +45,18 @@
             <%= for work_order <- @work_orders do %>
 
               <tr id="work_order-<%= work_order.id %>">
-                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
                   <span class="font-bold text-blueGray-600">
                     <%= work_order.plate %>
                   </span>
                 </th>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                   <%= work_order.mechanic %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                   <%= work_order.updated_at %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-right">
                   <a
                     href="#"
                     class="text-blueGray-500 block py-1 px-3"

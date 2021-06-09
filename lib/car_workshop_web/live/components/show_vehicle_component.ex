@@ -16,31 +16,31 @@ defmodule CarWorkshopWeb.ShowVehicleComponent do
         Información del Vehículo
       </h6>
       <div class="flex flex-wrap">
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Placa:
           </span>
           <p class="inline-block text-sm"><%= @vehicle.plate %></p>
         </div>
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Marca:
           </span>
           <p class="inline-block text-sm"><%= @vehicle.brand %></p>
         </div>
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Modelo:
           </span>
           <p class="inline-block text-sm"><%= @vehicle.model %></p>
         </div>
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Color:
           </span>
           <p class="inline-block text-sm"><%= @vehicle.color %></p>
         </div>
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Clase:
           </span>
@@ -48,13 +48,13 @@ defmodule CarWorkshopWeb.ShowVehicleComponent do
             <%= if @vehicle.class == "car" do "Carro" else "Moto" end %>
           </p>
         </div>
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Kilometraje:
           </span>
           <p class="inline-block text-sm"><%= @vehicle.km %></p>
         </div>
-        <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+        <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
           <span class="uppercase text-gray-600 text-xs font-bold mb-2">
             Combustible:
           </span>
@@ -63,7 +63,7 @@ defmodule CarWorkshopWeb.ShowVehicleComponent do
           </p>
         </div>
         <%= if @vehicle.chassis do %>
-          <div class="w-full md:w-6/12 lg:w-3/12 px-4 py-2">
+          <div class="w-full md:w-6/12 lg:w-4/12 px-4 py-2">
             <span class="uppercase text-gray-600 text-xs font-bold mb-2">
               Chasis:
             </span>
@@ -86,20 +86,22 @@ defmodule CarWorkshopWeb.ShowVehicleComponent do
         </div>
       </div>
 
-      <hr class="mt-6 border-b-1 border-gray-300" />
+      <%= if @vehicle.photos != [] do %>
+        <hr class="mt-6 border-b-1 border-gray-300" />
 
-      <h6 class="text-gray-400 text-sm mt-3 mb-6 font-bold uppercase">
-        registro fotográfico del vehículo
-      </h6>
-      <div class="flex flex-wrap">
-        <%= for photo_url <- @vehicle.photos do %>
-          <div class="w-full lg:w-6/12 px-4">
-            <div class="relative w-full mb-3">
-              <img load="lazy" src="<%= photo_url %>" height="150" />
+        <h6 class="text-gray-400 text-sm mt-3 mb-6 font-bold uppercase">
+          registro fotográfico del vehículo
+        </h6>
+        <div class="flex flex-wrap">
+          <%= for photo_url <- @vehicle.photos do %>
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <img load="lazy" src="<%= photo_url %>" height="150" />
+              </div>
             </div>
-          </div>
-        <% end %>
-      </div>
+          <% end %>
+        </div>
+      <% end %>
 
       <hr class="mt-6 border-b-1 border-gray-300" />
 

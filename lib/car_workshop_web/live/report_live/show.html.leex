@@ -31,18 +31,18 @@
           </thead>
           <tbody id="work-order-services">
             <tr>
-              <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+              <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
                 <span class="font-bold text-blueGray-600">
                   <%= @report.work_order.mechanic %>
                 </span>
               </th>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                 <%= @report.updated_at %>
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                 <%= @report.guarantee_months %>
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                 <%= @report.customer_identity_number %>
               </td>
             </tr>
@@ -73,19 +73,19 @@
             <%= for work_order_service <- @report.work_order.work_order_services do %>
 
               <tr id="service-<%= work_order_service.service.name %>">
-                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
                   <span class="font-bold text-blueGray-600">
                     <%= work_order_service.service.name %>
                   </span>
                 </th>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                   <%= work_order_service.qty %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                   <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                   <%= work_order_service.service.price %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                   <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                   <%= work_order_service.qty * work_order_service.service.price %>
                 </td>
@@ -95,12 +95,12 @@
             <tr>
               <th></th>
               <td></td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
                 <span class="font-bold text-blueGray-600">
                   TOTAL
                 </span>
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                 <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                 <span class="font-bold text-blueGray-600">
                   <%= @total %>
