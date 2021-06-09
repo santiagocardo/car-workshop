@@ -27,7 +27,7 @@ defmodule CarWorkshopWeb.VehicleComponent do
 
   @impl true
   def handle_event("validate", %{"vehicle" => vehicle_params}, socket) do
-    plate = String.capitalize(vehicle_params["plate"])
+    plate = String.upcase(vehicle_params["plate"])
 
     validation_response = fn socket, vehicle_params ->
       {:noreply,
@@ -55,7 +55,7 @@ defmodule CarWorkshopWeb.VehicleComponent do
   @impl true
   def handle_event("save", %{"vehicle" => vehicle_params}, socket) do
     with %Ecto.Changeset{errors: []} = changeset <- validate_changeset(vehicle_params, socket) do
-      vehicle_params = with_capitalized_plate(vehicle_params)
+      vehicle_params = with_upcased_plate(vehicle_params)
 
       case WorkOrders.get_work_order_by_plate(vehicle_params["plate"]) do
         %WorkOrders.WorkOrder{is_completed: true} ->
@@ -121,7 +121,7 @@ defmodule CarWorkshopWeb.VehicleComponent do
     |> Map.put(:action, :validate)
   end
 
-  def with_capitalized_plate(vehicle_params) do
-    Map.update!(vehicle_params, "plate", &String.capitalize/1)
+  def with_upcased_plate(vehicle_params) do
+    Map.update!(vehicle_params, "plate", &String.upcase/1)
   end
 end
