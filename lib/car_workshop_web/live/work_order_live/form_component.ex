@@ -46,22 +46,20 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
 
   defp maybe_validate_and_save_work_order(socket, :new, work_order_params) do
     case WorkOrders.get_work_order_by_plate(work_order_params["plate"]) do
-      nil ->
+      %WorkOrders.WorkOrder{is_completed: false} ->
+        error_response(socket, "ya hay una orden en proceso para este vehículo")
+
+      _ ->
         work_order_params = map_services(work_order_params)
 
         save_work_order(socket, :new, work_order_params)
-
-      _work_order ->
-        error_response(socket, "ya hay una orden en proceso para este vehículo")
     end
   end
 
   defp save_work_order(socket, :edit, work_order_params) do
     case WorkOrders.update_work_order(socket.assigns.work_order, work_order_params) do
       {:ok, _work_order} ->
-        {:noreply,
-         socket
-         |> push_redirect(to: socket.assigns.return_to)}
+        {:noreply, push_redirect(socket, to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -71,9 +69,7 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
   defp save_work_order(socket, :new, work_order_params) do
     case WorkOrders.create_work_order(work_order_params) do
       {:ok, _work_order} ->
-        {:noreply,
-         socket
-         |> push_redirect(to: socket.assigns.return_to)}
+        {:noreply, push_redirect(socket, to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
@@ -97,15 +93,8 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
   end
 
   defp error_response(socket, error_message) do
-    {:noreply,
-     assign(
-       socket,
-       :changeset,
-       Ecto.Changeset.add_error(
-         socket.assigns.changeset,
-         :plate,
-         error_message
-       )
-     )}
+    changeset = Ecto.Changeset.add_error(socket.assigns.changeset, :plate, error_message)
+
+    {:noreply, assign(socket, :changeset, changeset)}
   end
 end

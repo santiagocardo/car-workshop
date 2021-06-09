@@ -1,10 +1,10 @@
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, CarWorkshopWeb.WorkOrderLive.FormComponent,
-    id: @work_order.id || :new,
+  <%= live_modal @socket, CarWorkshopWeb.ReportLive.FormComponent,
+    id: @report.id || :new,
     title: @page_title,
     action: @live_action,
-    work_order: @work_order,
-    return_to: Routes.work_order_index_path(@socket, :index) %>
+    report: @report,
+    return_to: Routes.report_index_path(@socket, :index) %>
 <% end %>
 
 <section class="flex flex-wrap">
@@ -14,12 +14,8 @@
       <div class="rounded-t bg-white mb-0 px-6 py-6">
         <div class="text-center flex justify-between">
           <h6 class="text-gray-700 text-xl font-bold">
-            Órdenes de Trabajo
+            Reportes
           </h6>
-          <%= live_patch "Crear",
-            to: Routes.work_order_index_path(@socket, :new),
-            class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          %>
         </div>
       </div>
       <div class="block w-full overflow-x-auto">
@@ -31,7 +27,7 @@
                 Placa
               </th>
               <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
-                Mecánico Encargado
+                Vehículo
               </th>
               <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Fecha
@@ -40,44 +36,36 @@
               </th>
             </tr>
           </thead>
-          <tbody id="work_orders">
-            <%= for work_order <- @work_orders do %>
+          <tbody id="reports">
+            <%= for report <- @reports do %>
 
-              <tr id="work_order-<%= work_order.id %>">
+              <tr id="report-<%= report.id %>">
                 <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                   <span class="font-bold text-blueGray-600">
-                    <%= work_order.plate %>
+                    <%= report.plate %>
                   </span>
                 </th>
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <%= work_order.mechanic %>
+                  <%= report.brand %> <%= report.model %> <%= report.color %>
                 </td>
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <%= work_order.updated_at %>
+                  <%= report.updated_at %>
                 </td>
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                   <a
                     href="#"
                     class="text-blueGray-500 block py-1 px-3"
-                    onclick="openDropdown(event,'table-light-1-dropdown-<%= work_order.id %>')"
+                    onclick="openDropdown(event,'table-light-1-dropdown-<%= report.id %>')"
                   >
                     <i class="fas fa-ellipsis-v"></i>
                   </a>
-                  <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="table-light-1-dropdown-<%= work_order.id %>">
+                  <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="table-light-1-dropdown-<%= report.id %>">
                     <%= live_redirect "Ver",
-                      to: Routes.work_order_show_path(@socket, :show, work_order),
-                      class: "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                    %>
-                    <%= live_patch "Editar",
-                      to: Routes.work_order_index_path(@socket, :edit, work_order),
+                      to: Routes.report_show_path(@socket, :show, report),
                       class: "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                     %>
                     <%= link "Eliminar",
-                      to: "#", phx_click: "delete", phx_value_id: work_order.id, data: [confirm: "Estás seguro/a?"],
-                      class: "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                    %>
-                    <%= live_patch "Finalizar",
-                      to: Routes.work_order_show_path(@socket, :complete, work_order),
+                      to: "#", phx_click: "delete", phx_value_id: report.id, data: [confirm: "Estás seguro/a?"],
                       class: "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                     %>
                   </div>

@@ -16,35 +16,79 @@
           <h6 class="text-gray-700 text-xl font-bold">
             Órden de Trabajo #<%= @work_order.id %>
           </h6>
-          <%= live_patch "Editar",
-            to: Routes.work_order_show_path(@socket, :edit, @work_order),
-            class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          %>
-        </div>
-        <div class="text-center flex justify-start text-sm">
-          <span class="text-gray-600 font-bold my-2 mr-2">
-            Placa:
-          </span>
-          <p class="text-gray-600 my-2 mr-2">
-            <%= @work_order.plate %>
-          </p>
-        </div>
-        <div class="text-center flex justify-start text-sm">
-          <span class="text-gray-600 font-bold my-2 mr-2">
-            Mecánico Encargado:
-          </span>
-          <p class="text-gray-600 my-2 mr-2">
-            <%= @work_order.mechanic %>
-          </p>
+          <%= if @live_action in [:complete] do %>
+            <%= f = form_for @changeset, "#",
+              id: "complete-work-order-form",
+              phx_submit: "save"
+            %>
+              <div class="flex justify-center flex-wrap">
+                <div class="mb-2 px-4">
+                  <%= number_input f, :guarantee_months,
+                    placeholder: "Garantía Meses",
+                    class: "border-0 p-2 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150",
+                    min: 0
+                  %>
+                  <%= error_tag f, :guarantee_months %>
+                </div>
+
+                <div class="mb-2 px-4">
+                  <%= submit "Finalizar",
+                    phx_disable_with: "Finalizando...",
+                    class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  %>
+                </div>
+              </div>
+            </form>
+          <% else %>
+            <%= live_patch "Editar",
+              to: Routes.work_order_show_path(@socket, :edit, @work_order),
+              class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+            %>
+          <% end %>
         </div>
       </div>
+
       <div class="block w-full overflow-x-auto">
         <!-- table -->
         <table class="items-center w-full bg-transparent border-collapse">
           <thead>
             <tr>
               <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
-                Servicio
+                Placa
+              </th>
+              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                Mecánico Encargado
+              </th>
+              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                Fecha
+              </th>
+            </tr>
+          </thead>
+          <tbody id="work-order-services">
+            <tr>
+              <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                <span class="font-bold text-blueGray-600">
+                  <%= @work_order.plate %>
+                </span>
+              </th>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <%= @work_order.mechanic %>
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <%= @work_order.updated_at %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block w-full overflow-x-auto">
+        <!-- table -->
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead>
+            <tr>
+              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                Servicios y procedimientos realizados
               </th>
               <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Cantidad

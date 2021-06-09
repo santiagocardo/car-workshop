@@ -1,9 +1,11 @@
 defmodule CarWorkshopWeb.WorkOrderLive.Index do
   use CarWorkshopWeb, :live_view
 
-  alias CarWorkshop.Services
-  alias CarWorkshop.WorkOrders
-  alias CarWorkshop.WorkOrders.WorkOrder
+  alias CarWorkshop.{
+    Services,
+    WorkOrders,
+    WorkOrders.WorkOrder
+  }
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,19 +18,22 @@ defmodule CarWorkshopWeb.WorkOrderLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    work_order = WorkOrders.get_work_order!(id)
+    with work_order = %WorkOrder{is_completed: true} <- WorkOrders.get_work_order!(id) do
+      push_redirect(socket, to: Routes.work_order_show_path(socket, :show, work_order))
+    else
+      work_order ->
+        current_services =
+          work_order.work_order_services
+          |> Enum.map(&Map.merge(&1.service, %{qty: &1.qty, checked: true}))
 
-    current_services =
-      work_order.work_order_services
-      |> Enum.map(&Map.merge(&1.service, %{qty: &1.qty, checked: true}))
+        services_to_show =
+          Services.list_services()
+          |> Enum.map(fn s -> Enum.find(current_services, s, &(&1.id == s.id)) end)
 
-    services_to_show =
-      Services.list_services()
-      |> Enum.map(fn s -> Enum.find(current_services, s, &(&1.id == s.id)) end)
-
-    socket
-    |> assign(:page_title, "Editar Orden de Trabajo ##{id}")
-    |> assign(:work_order, Map.put(work_order, :work_order_services, services_to_show))
+        socket
+        |> assign(:page_title, "Editar Orden de Trabajo ##{id}")
+        |> assign(:work_order, Map.put(work_order, :work_order_services, services_to_show))
+    end
   end
 
   defp apply_action(socket, :new, params) do

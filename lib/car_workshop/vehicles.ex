@@ -37,7 +37,11 @@ defmodule CarWorkshop.Vehicles do
   """
   def get_vehicle!(id), do: Repo.get!(Vehicle, id)
 
-  def get_vehicle_by_plate(plate), do: Repo.get_by(Vehicle, plate: plate)
+  def get_vehicle_by_plate(plate) do
+    Vehicle
+    |> Repo.get_by(plate: plate)
+    |> Repo.preload(:customer)
+  end
 
   @doc """
   Creates a vehicle.

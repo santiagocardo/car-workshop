@@ -18,7 +18,8 @@ defmodule CarWorkshop.WorkOrders do
 
   """
   def list_work_orders do
-    Repo.all(WorkOrder)
+    from(w in WorkOrder, where: w.is_completed == false)
+    |> Repo.all()
   end
 
   @doc """
@@ -41,7 +42,15 @@ defmodule CarWorkshop.WorkOrders do
     |> Repo.preload(work_order_services: :service)
   end
 
-  def get_work_order_by_plate(plate), do: Repo.get_by(WorkOrder, plate: plate)
+  def get_work_order_by_plate(plate) do
+    from(w in WorkOrder,
+      where: w.plate == ^plate,
+      order_by: [desc: w.id],
+      limit: 1
+    )
+    |> Repo.all()
+    |> Enum.at(0)
+  end
 
   @doc """
   Creates a work_order.
@@ -110,16 +119,19 @@ defmodule CarWorkshop.WorkOrders do
     WorkOrder.changeset(work_order, attrs)
   end
 
-  defp maybe_delete_work_order_services(
-         %Ecto.Changeset{valid?: false} = changeset,
-         _work_order_id
-       ),
-       do: changeset
-
   defp maybe_delete_work_order_services(changeset, work_order_id) do
-    from(w in WorkOrderService, where: w.work_order_id == ^work_order_id)
-    |> Repo.delete_all()
+    case changeset do
+      %Ecto.Changeset{valid?: false} ->
+        changeset
 
-    changeset
+      %Ecto.Changeset{changes: %{is_completed: true}} ->
+        changeset
+
+      _ ->
+        from(w in WorkOrderService, where: w.work_order_id == ^work_order_id)
+        |> Repo.delete_all()
+
+        changeset
+    end
   end
 end

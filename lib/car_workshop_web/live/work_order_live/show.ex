@@ -1,12 +1,18 @@
 defmodule CarWorkshopWeb.WorkOrderLive.Show do
   use CarWorkshopWeb, :live_view
 
-  alias CarWorkshop.WorkOrders
-  alias CarWorkshop.Services
+  alias CarWorkshop.{
+    WorkOrders,
+    Services,
+    Reports,
+    Vehicles
+  }
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    changeset = Reports.change_report(%Reports.Report{})
+
+    {:ok, assign(socket, :changeset, changeset)}
   end
 
   @impl true
@@ -23,9 +29,17 @@ defmodule CarWorkshopWeb.WorkOrderLive.Show do
     |> assign(:current_services, work_order.work_order_services)
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    work_order = WorkOrders.get_work_order!(id)
+  defp apply_action(socket, action, %{"id" => id}) when action in [:edit, :complete] do
+    case WorkOrders.get_work_order!(id) do
+      %WorkOrders.WorkOrder{is_completed: true} ->
+        push_redirect(socket, to: Routes.work_order_show_path(socket, :show, id))
 
+      work_order ->
+        update_work_order(socket, action, work_order)
+    end
+  end
+
+  defp update_work_order(socket, :edit, work_order) do
     current_services =
       work_order.work_order_services
       |> Enum.map(&Map.merge(&1.service, %{qty: &1.qty, checked: true}))
@@ -35,8 +49,41 @@ defmodule CarWorkshopWeb.WorkOrderLive.Show do
       |> Enum.map(fn s -> Enum.find(current_services, s, &(&1.id == s.id)) end)
 
     socket
-    |> assign(:page_title, "Editar Órden de Trabajo ##{id}")
+    |> assign(:page_title, "Editar Órden de Trabajo ##{work_order.id}")
     |> assign(:current_services, work_order.work_order_services)
     |> assign(:work_order, Map.put(work_order, :work_order_services, services_to_show))
+  end
+
+  defp update_work_order(socket, :complete, work_order) do
+    socket
+    |> assign(:page_title, "Completar Órden de Trabajo ##{work_order.id}")
+    |> assign(:current_services, work_order.work_order_services)
+    |> assign(:work_order, work_order)
+  end
+
+  @impl true
+  def handle_event("save", %{"report" => %{"guarantee_months" => months}}, socket) do
+    vehicle = Vehicles.get_vehicle_by_plate(socket.assigns.work_order.plate)
+
+    {:ok, _work_order} =
+      WorkOrders.update_work_order(socket.assigns.work_order, %{is_completed: true})
+
+    new_report =
+      vehicle
+      |> Map.drop([:__meta__, :__struct__])
+      |> Map.merge(%{
+        guarantee_months: months,
+        customer_identity_number: vehicle.customer.identity_number,
+        customer_id: vehicle.customer_id,
+        work_order_id: socket.assigns.work_order.id
+      })
+
+    case Reports.create_report(new_report) do
+      {:ok, report} ->
+        {:noreply, push_redirect(socket, to: Routes.report_show_path(socket, :show, report))}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
   end
 end

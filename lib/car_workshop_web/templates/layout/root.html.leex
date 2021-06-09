@@ -173,13 +173,12 @@
               </li>
 
               <li class="items-center">
-                <a
-                  href="./tables.html"
-                  class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500"
-                >
-                  <i class="fas fa-table mr-2 text-sm text-gray-300"></i>
-                  Reportes
-                </a>
+                <%= live_redirect to: Routes.report_index_path(@conn, :index) do %>
+                  <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
+                    <i class="fas fa-table mr-2 text-sm text-gray-300"></i>
+                    Reportes
+                  </div>
+                <% end %>
               </li>
             </ul>
 

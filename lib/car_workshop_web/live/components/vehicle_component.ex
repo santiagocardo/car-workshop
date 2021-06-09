@@ -1,7 +1,7 @@
 defmodule CarWorkshopWeb.VehicleComponent do
   use CarWorkshopWeb, :live_component
 
-  alias CarWorkshop.Vehicles
+  alias CarWorkshop.{Vehicles, WorkOrders}
 
   @impl true
   def mount(socket) do
@@ -54,15 +54,25 @@ defmodule CarWorkshopWeb.VehicleComponent do
 
   @impl true
   def handle_event("save", %{"vehicle" => vehicle_params}, socket) do
-    changeset = validate_changeset(vehicle_params, socket)
+    with %Ecto.Changeset{errors: []} = changeset <- validate_changeset(vehicle_params, socket) do
+      case WorkOrders.get_work_order_by_plate(vehicle_params["plate"]) do
+        %WorkOrders.WorkOrder{is_completed: true} ->
+          register_vehicle(vehicle_params, socket)
 
-    case changeset.errors do
-      [] ->
-        register_vehicle(vehicle_params, socket)
+          {:noreply, socket}
 
-        {:noreply, socket}
+        _ ->
+          changeset =
+            Ecto.Changeset.add_error(
+              changeset,
+              :plate,
+              "este vehículo tiene una orden de trabajo en proceso"
+            )
 
-      _ ->
+          {:noreply, assign(socket, :changeset, changeset)}
+      end
+    else
+      changeset ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end

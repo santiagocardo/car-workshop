@@ -11,6 +11,7 @@ defmodule CarWorkshop.Accounts.Customer do
     field :phone, :string
 
     has_many :vehicles, CarWorkshop.Vehicles.Vehicle
+    has_many :reports, CarWorkshop.Reports.Report
 
     timestamps()
   end

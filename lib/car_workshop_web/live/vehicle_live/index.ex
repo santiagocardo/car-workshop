@@ -1,9 +1,12 @@
 defmodule CarWorkshopWeb.VehicleLive.Index do
   use CarWorkshopWeb, :live_view
 
-  alias CarWorkshop.Vehicles
-  alias CarWorkshop.Accounts
-  alias CarWorkshop.{Vehicles.Vehicle, Accounts.Customer}
+  alias CarWorkshop.{
+    Vehicles,
+    Accounts,
+    Vehicles.Vehicle,
+    Accounts.Customer
+  }
 
   @impl true
   def mount(_params, _session, socket) do
