@@ -4,14 +4,14 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-  <div class="rounded-t bg-white mb-0 px-6 py-6">
-    <div class="text-center flex justify-between">
-      <h6 class="text-gray-700 text-xl font-bold">
+  <div class="rounded-t bg-white p-6">
+    <div class="flex justify-between items-center">
+      <h6 class="text-center text-gray-700 text-xl font-bold">
         <%= @title %>
       </h6>
       <%= submit "Siguiente",
         phx_disable_with: "Siguiente...",
-        class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+        class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
       %>
     </div>
   </div>

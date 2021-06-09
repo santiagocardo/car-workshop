@@ -74,9 +74,6 @@ defmodule CarWorkshopWeb.WorkOrderLive.Show do
   def handle_event("save", %{"report" => %{"guarantee_months" => months}}, socket) do
     vehicle = Vehicles.get_vehicle_by_plate(socket.assigns.work_order.plate)
 
-    {:ok, _work_order} =
-      WorkOrders.update_work_order(socket.assigns.work_order, %{is_completed: true})
-
     new_report =
       vehicle
       |> Map.drop([:__meta__, :__struct__])
@@ -89,6 +86,9 @@ defmodule CarWorkshopWeb.WorkOrderLive.Show do
 
     case Reports.create_report(new_report) do
       {:ok, report} ->
+        {:ok, _work_order} =
+          WorkOrders.update_work_order(socket.assigns.work_order, %{is_completed: true})
+
         {:noreply, push_redirect(socket, to: Routes.report_show_path(socket, :show, report))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
