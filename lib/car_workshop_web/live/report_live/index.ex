@@ -6,7 +6,7 @@ defmodule CarWorkshopWeb.ReportLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :reports, list_reports())}
+    {:ok, assign(socket, :reports, list_reports()), temporary_assigns: [reports: []]}
   end
 
   @impl true
@@ -18,6 +18,13 @@ defmodule CarWorkshopWeb.ReportLive.Index do
     socket
     |> assign(:page_title, "Reportes")
     |> assign(:report, nil)
+  end
+
+  @impl true
+  def handle_event("search", %{"plate" => plate}, socket) do
+    reports = Reports.get_reports_by_plate(plate)
+
+    {:noreply, assign(socket, :reports, reports)}
   end
 
   @impl true

@@ -12,7 +12,6 @@ defmodule CarWorkshopWeb.LayoutView do
   end
 
   def count_reports() do
-    CarWorkshop.Reports.list_reports()
-    |> Enum.count()
+    CarWorkshop.Reports.count_reports()
   end
 end

@@ -18,9 +18,11 @@ defmodule CarWorkshop.Reports do
 
   """
   def list_reports do
-    from(r in Report, order_by: [desc: r.id])
+    from(r in Report, order_by: [desc: r.id], limit: 20)
     |> Repo.all()
   end
+
+  def count_reports, do: Repo.one(from r in Report, select: fragment("count(*)"))
 
   @doc """
   Gets a single report.
@@ -39,6 +41,15 @@ defmodule CarWorkshop.Reports do
   def get_report!(id) do
     Repo.get!(Report, id)
     |> Repo.preload(work_order: [work_order_services: :service], customer: [])
+  end
+
+  def get_reports_by_plate(plate) do
+    from(r in Report,
+      where: r.plate == ^plate,
+      order_by: [desc: r.id],
+      limit: 50
+    )
+    |> Repo.all()
   end
 
   @doc """
