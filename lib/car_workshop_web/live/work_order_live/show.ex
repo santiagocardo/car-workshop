@@ -16,21 +16,31 @@ defmodule CarWorkshopWeb.WorkOrderLive.Show do
   end
 
   @impl true
+  def handle_params(%{"id" => id}, _url, socket) do
+    work_order = WorkOrders.get_work_order!(id)
+    vehicle = Vehicles.get_vehicle_by_plate(work_order.plate)
+
+    socket =
+      socket
+      |> assign(:work_order, work_order)
+      |> assign(:current_services, work_order.work_order_services)
+      |> assign(:vehicle, vehicle)
+
+    {:noreply, apply_action(socket, socket.assigns.live_action, %{"id" => id})}
+  end
+
+  @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :show, %{"id" => id}) do
-    work_order = WorkOrders.get_work_order!(id)
-
     socket
     |> assign(:page_title, "Órden de Trabajo ##{id}")
-    |> assign(:work_order, work_order)
-    |> assign(:current_services, work_order.work_order_services)
   end
 
   defp apply_action(socket, action, %{"id" => id}) when action in [:edit, :complete] do
-    case WorkOrders.get_work_order!(id) do
+    case socket.assigns.work_order do
       %WorkOrders.WorkOrder{is_completed: true} ->
         push_redirect(socket, to: Routes.work_order_show_path(socket, :show, id))
 
@@ -48,17 +58,16 @@ defmodule CarWorkshopWeb.WorkOrderLive.Show do
       Services.list_services()
       |> Enum.map(fn s -> Enum.find(current_services, s, &(&1.id == s.id)) end)
 
+    work_order = Map.put(work_order, :work_order_services, services_to_show)
+
     socket
     |> assign(:page_title, "Editar Órden de Trabajo ##{work_order.id}")
-    |> assign(:current_services, work_order.work_order_services)
-    |> assign(:work_order, Map.put(work_order, :work_order_services, services_to_show))
+    |> assign(:work_order, work_order)
   end
 
   defp update_work_order(socket, :complete, work_order) do
     socket
     |> assign(:page_title, "Completar Órden de Trabajo ##{work_order.id}")
-    |> assign(:current_services, work_order.work_order_services)
-    |> assign(:work_order, work_order)
   end
 
   @impl true

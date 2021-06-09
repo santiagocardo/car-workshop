@@ -16,34 +16,36 @@
           <h6 class="text-gray-700 text-xl font-bold">
             Órden de Trabajo #<%= @work_order.id %>
           </h6>
-          <%= if @live_action in [:complete] do %>
-            <%= f = form_for @changeset, "#",
-              id: "complete-work-order-form",
-              phx_submit: "save"
-            %>
-              <div class="flex justify-center flex-wrap">
-                <div class="mb-2 px-4">
-                  <%= number_input f, :guarantee_months,
-                    placeholder: "Garantía Meses",
-                    class: "border-0 p-2 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150",
-                    min: 0
-                  %>
-                  <%= error_tag f, :guarantee_months %>
-                </div>
+          <%= unless @work_order.is_completed do %>
+            <%= if @live_action in [:complete] do %>
+              <%= f = form_for @changeset, "#",
+                id: "complete-work-order-form",
+                phx_submit: "save"
+              %>
+                <div class="flex justify-center flex-wrap">
+                  <div class="mb-2 px-4">
+                    <%= number_input f, :guarantee_months,
+                      placeholder: "Garantía Meses",
+                      class: "border-0 p-2 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150",
+                      min: 0
+                    %>
+                    <%= error_tag f, :guarantee_months %>
+                  </div>
 
-                <div class="mb-2 px-4">
-                  <%= submit "Finalizar",
-                    phx_disable_with: "Finalizando...",
-                    class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                  %>
+                  <div class="mb-2 px-4">
+                    <%= submit "Finalizar",
+                      phx_disable_with: "Finalizando...",
+                      class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    %>
+                  </div>
                 </div>
-              </div>
-            </form>
-          <% else %>
-            <%= live_patch "Editar",
-              to: Routes.work_order_show_path(@socket, :edit, @work_order),
-              class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-            %>
+              </form>
+            <% else %>
+              <%= live_patch "Editar",
+                to: Routes.work_order_show_path(@socket, :edit, @work_order),
+                class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              %>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -120,6 +122,11 @@
           </tbody>
         </table>
       </div>
+
+      <%= live_component @socket, CarWorkshopWeb.ShowVehicleComponent,
+        id: :vehicle_work_order,
+        vehicle: @vehicle
+      %>
 
     </div>
     <%= live_redirect "Volver",

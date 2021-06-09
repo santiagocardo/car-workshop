@@ -33,7 +33,7 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
         maybe_validate_and_save_work_order(
           socket,
           socket.assigns.action,
-          work_order_params
+          with_capitalized_plate(work_order_params)
         )
     end
   end
@@ -96,5 +96,9 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
     changeset = Ecto.Changeset.add_error(socket.assigns.changeset, :plate, error_message)
 
     {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  def with_capitalized_plate(work_order_params) do
+    Map.update!(work_order_params, "plate", &String.capitalize/1)
   end
 end

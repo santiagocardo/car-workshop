@@ -6,13 +6,13 @@ defmodule CarWorkshopWeb.LayoutView do
     |> Enum.count()
   end
 
-  def count_users() do
-    CarWorkshop.Accounts.list_customers()
+  def count_work_orders() do
+    CarWorkshop.WorkOrders.list_work_orders()
     |> Enum.count()
   end
 
-  def count_work_orders() do
-    CarWorkshop.WorkOrders.list_work_orders()
+  def count_reports() do
+    CarWorkshop.Reports.list_reports()
     |> Enum.count()
   end
 end
