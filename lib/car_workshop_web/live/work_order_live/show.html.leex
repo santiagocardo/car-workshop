@@ -35,7 +35,7 @@
                   <div class="w-full sm:w-5/12">
                     <%= submit "Finalizar",
                       phx_disable_with: "Finalizando...",
-                      class: "w-full bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                      class: "w-full bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                     %>
                   </div>
                 </div>
@@ -43,7 +43,7 @@
             <% else %>
               <%= live_patch "Editar",
                 to: Routes.work_order_show_path(@socket, :edit, @work_order),
-                class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                class: "my-2 sm:my-0 text-center w-full sm:w-auto bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
               %>
             <% end %>
           <% end %>

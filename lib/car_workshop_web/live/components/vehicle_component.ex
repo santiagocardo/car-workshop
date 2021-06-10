@@ -58,12 +58,7 @@ defmodule CarWorkshopWeb.VehicleComponent do
       vehicle_params = with_upcased_plate(vehicle_params)
 
       case WorkOrders.get_work_order_by_plate(vehicle_params["plate"]) do
-        %WorkOrders.WorkOrder{is_completed: true} ->
-          register_vehicle(vehicle_params, socket)
-
-          {:noreply, socket}
-
-        _ ->
+        %WorkOrders.WorkOrder{is_completed: false} ->
           changeset =
             Ecto.Changeset.add_error(
               changeset,
@@ -72,6 +67,11 @@ defmodule CarWorkshopWeb.VehicleComponent do
             )
 
           {:noreply, assign(socket, :changeset, changeset)}
+
+        _ ->
+          register_vehicle(vehicle_params, socket)
+
+          {:noreply, socket}
       end
     else
       changeset ->

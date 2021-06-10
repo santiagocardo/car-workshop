@@ -22,7 +22,11 @@ defmodule CarWorkshopWeb.ReportLive.Index do
 
   @impl true
   def handle_event("search", %{"plate" => plate}, socket) do
-    reports = Reports.get_reports_by_plate(plate)
+    reports =
+      case plate do
+        "" -> list_reports()
+        _ -> Reports.get_reports_by_plate(plate)
+      end
 
     {:noreply, assign(socket, :reports, reports)}
   end

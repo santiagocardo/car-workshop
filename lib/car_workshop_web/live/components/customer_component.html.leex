@@ -5,13 +5,13 @@
   phx_submit: "save" %>
 
   <div class="rounded-t bg-white p-6">
-    <div class="flex justify-between items-center">
-      <h6 class="text-center text-gray-700 text-xl font-bold">
+    <div class="flex flex-wrap justify-between items-center">
+      <h6 class="w-full sm:w-auto text-center text-gray-700 text-xl font-bold">
         <%= @title %>
       </h6>
       <%= submit "Guardar",
         phx_disable_with: "Guardando...",
-        class: "bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+        class: "my-2 sm:my-0 text-center w-full sm:w-auto bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
       %>
     </div>
   </div>
