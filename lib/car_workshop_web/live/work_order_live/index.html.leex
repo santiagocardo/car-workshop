@@ -41,22 +41,22 @@
               </th>
             </tr>
           </thead>
-          <tbody id="work_orders">
+          <tbody id="work-orders">
             <%= for work_order <- @work_orders do %>
 
-              <tr id="work_order-<%= work_order.id %>">
-                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
+              <tr id="work-order-<%= work_order.id %>">
+                <th class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap text-left">
                   <span class="font-bold text-blueGray-600">
                     <%= work_order.plate %>
                   </span>
                 </th>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                   <%= work_order.mechanic %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                   <%= work_order.updated_at %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-right">
+                <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap text-right">
                   <a
                     href="#"
                     class="text-blueGray-500 block py-1 px-3"

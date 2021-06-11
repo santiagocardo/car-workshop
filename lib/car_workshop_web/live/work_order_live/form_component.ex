@@ -25,16 +25,14 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
 
   @impl true
   def handle_event("save", %{"work_order" => work_order_params}, socket) do
+    work_order_params = with_upcased_plate(work_order_params)
+
     case Vehicles.get_vehicle_by_plate(work_order_params["plate"]) do
       nil ->
         error_response(socket, "este vehículo no está registrado")
 
       _vehicle ->
-        maybe_validate_and_save_work_order(
-          socket,
-          socket.assigns.action,
-          with_upcased_plate(work_order_params)
-        )
+        maybe_validate_and_save_work_order(socket, socket.assigns.action, work_order_params)
     end
   end
 

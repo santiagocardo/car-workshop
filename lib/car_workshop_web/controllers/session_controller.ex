@@ -18,7 +18,6 @@ defmodule CarWorkshopWeb.SessionController do
       {:ok, user} ->
         conn
         |> CarWorkshopWeb.Auth.login(user)
-        |> put_flash(:info, "Welcome back!")
         |> redirect(to: Routes.vehicle_index_path(conn, :new))
 
       {:error, _reason} ->

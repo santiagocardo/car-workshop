@@ -20,16 +20,16 @@
           </div>
         </div>
 
-        <div class="flex-auto px-4 lg:px-10 py-10 pt-4">
-          <div class="flex flex-wrap">
-            <div class="w-full lg:w-4/12 px-4">
+        <div class="block w-full overflow-x-auto">
+          <div class="flex flex-wrap py-6">
+            <div class="w-full sm:w-6/12 lg:w-3/12 px-4">
               <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
                 id: :plate,
                 f: f,
                 label: "Placa"
               %>
             </div>
-            <div class="w-full lg:w-4/12 px-4">
+            <div class="w-full sm:w-6/12 lg:w-3/12 px-4">
               <%= live_component @socket, CarWorkshopWeb.TextInputComponent,
                 id: :mechanic,
                 f: f,
@@ -37,22 +37,42 @@
               %>
             </div>
           </div>
+          <!-- table -->
+          <table class="items-center w-full bg-transparent border-collapse">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                  Servicios y procedimientos a realizar
+                </th>
+                <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                  Confirmar
+                </th>
+                <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                  Cantidad
+                </th>
+              </tr>
+            </thead>
+            <tbody id="services-container" phx-update="ignore">
+              <%= for service_form <- inputs_for(f, :work_order_services) do %>
 
-          <h6 class="text-gray-400 text-sm m-3 font-bold uppercase">
-            Información del Diagnóstico
-          </h6>
-          <div class="flex flex-wrap" id="services-container" phx-update="ignore">
-            <%= for service_form <- inputs_for(f, :work_order_services) do %>
-              <div class="w-full lg:w-6/12 p-4">
-                <%= checkbox service_form, :checked, class: "mr-1" %>
-                <span class="font-bold text-sm text-gray-600">
-                  <%= service_form.data.name %>
-                </span>
+                <tr id="service-<%= service_form.data.id %>" class="border-t-2">
+                  <th class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm text-left whitespace-nowrap">
+                    <span class="font-bold text-blueGray-600">
+                      <%= service_form.data.name %>
+                    </span>
+                  </th>
+                  <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
+                    <%= checkbox service_form, :checked %>
+                  </td>
+                  <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
+                    <%= number_input service_form, :qty, class: "border-0 px-3 py-1 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150", min: 0 %>
+                  </td>
+                </tr>
                 <%= hidden_inputs_for service_form %>
-                <%= number_input service_form, :qty, class: "border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150", min: 0 %>
-              </div>
-            <% end %>
-          </div>
+
+              <% end %>
+            </tbody>
+          </table>
         </div>
 
       </form>

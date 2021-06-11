@@ -24,8 +24,13 @@ defmodule CarWorkshopWeb.ReportLive.Index do
   def handle_event("search", %{"plate" => plate}, socket) do
     reports =
       case plate do
-        "" -> list_reports()
-        _ -> Reports.get_reports_by_plate(plate)
+        "" ->
+          list_reports()
+
+        _ ->
+          plate
+          |> String.upcase()
+          |> Reports.get_reports_by_plate()
       end
 
     {:noreply, assign(socket, :reports, reports)}

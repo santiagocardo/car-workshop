@@ -15,34 +15,34 @@
         <table class="items-center w-full bg-transparent border-collapse">
           <thead>
             <tr>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Mecánico Encargado
               </th>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Fecha
               </th>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Meses de Garantía
               </th>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 RUT/cédula Registrada
               </th>
             </tr>
           </thead>
-          <tbody id="work-order-services">
+          <tbody>
             <tr>
-              <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
+              <th class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap text-left">
                 <span class="font-bold text-blueGray-600">
                   <%= @report.work_order.mechanic %>
                 </span>
               </th>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+              <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                 <%= @report.updated_at %>
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+              <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                 <%= @report.guarantee_months %>
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+              <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                 <%= @report.customer_identity_number %>
               </td>
             </tr>
@@ -55,37 +55,37 @@
         <table class="items-center w-full bg-transparent border-collapse">
           <thead>
             <tr>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Servicios y procedimientos realizados
               </th>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Cantidad
               </th>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Precio
               </th>
-              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+              <th class="px-6 py-3 align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                 Subtotal
               </th>
             </tr>
           </thead>
-          <tbody id="work-order-services">
+          <tbody id="report-services">
             <%= for work_order_service <- @report.work_order.work_order_services do %>
 
               <tr id="service-<%= work_order_service.service.name %>">
-                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
+                <th class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap text-left">
                   <span class="font-bold text-blueGray-600">
                     <%= work_order_service.service.name %>
                   </span>
                 </th>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                   <%= work_order_service.qty %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                   <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                   <%= work_order_service.service.price %>
                 </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                   <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                   <%= work_order_service.qty * work_order_service.service.price %>
                 </td>
@@ -95,12 +95,12 @@
             <tr>
               <th></th>
               <td></td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left flex items-center">
+              <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap text-left">
                 <span class="font-bold text-blueGray-600">
                   TOTAL
                 </span>
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+              <td class="px-6 py-2 align-middle border-t-0 border-l-0 border-r-0 text-sm whitespace-nowrap">
                 <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
                 <span class="font-bold text-blueGray-600">
                   <%= @total %>
