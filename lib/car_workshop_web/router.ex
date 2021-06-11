@@ -41,6 +41,10 @@ defmodule CarWorkshopWeb.Router do
 
     live "/reports/:id", ReportLive.Show, :show
     live "/reports/:id/show/edit", ReportLive.Show, :edit
+
+    live "/services", ServiceLive.Index, :index
+    live "/services/new", ServiceLive.Index, :new
+    live "/services/:id/edit", ServiceLive.Index, :edit
   end
 
   scope "/sessions", CarWorkshopWeb do
