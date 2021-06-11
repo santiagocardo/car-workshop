@@ -6,7 +6,9 @@ defmodule CarWorkshopWeb.ReportLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :reports, list_reports()), temporary_assigns: [reports: []]}
+    changeset = Reports.change_report(%Report{})
+
+    {:ok, assign(socket, reports: list_reports(), changeset: changeset)}
   end
 
   @impl true
@@ -15,23 +17,20 @@ defmodule CarWorkshopWeb.ReportLive.Index do
   end
 
   defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Reportes")
-    |> assign(:report, nil)
+    assign(socket, :page_title, "Reportes")
   end
 
   @impl true
-  def handle_event("search", %{"plate" => plate}, socket) do
-    reports =
-      case plate do
-        "" ->
-          list_reports()
+  def handle_event("search", %{"report" => report_params}, socket) do
+    query_opts =
+      report_params
+      |> Map.delete("date")
+      |> Map.to_list()
+      |> Enum.filter(fn {_key, value} -> value != "" end)
+      |> Enum.map(fn {key, value} -> {String.to_atom(key), value} end)
+      |> IO.inspect()
 
-        _ ->
-          plate
-          |> String.upcase()
-          |> Reports.get_reports_by_plate()
-      end
+    reports = Reports.find_reports(query_opts, report_params["date"])
 
     {:noreply, assign(socket, :reports, reports)}
   end

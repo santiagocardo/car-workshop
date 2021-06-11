@@ -52,6 +52,16 @@ defmodule CarWorkshop.Reports do
     |> Repo.all()
   end
 
+  def find_reports(query_opts, date) do
+    from(r in Report,
+      where: ^query_opts,
+      order_by: [desc: r.id],
+      limit: 20
+    )
+    |> maybe_put_date_filter(date)
+    |> Repo.all()
+  end
+
   @doc """
   Creates a report.
 
@@ -115,5 +125,13 @@ defmodule CarWorkshop.Reports do
   """
   def change_report(%Report{} = report, attrs \\ %{}) do
     Report.changeset(report, attrs)
+  end
+
+  defp maybe_put_date_filter(query, ""), do: query
+
+  defp maybe_put_date_filter(query, date) do
+    datetime = date <> " 00:00:00"
+
+    where(query, [r], r.updated_at > ^datetime)
   end
 end

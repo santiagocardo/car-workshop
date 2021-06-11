@@ -91,7 +91,10 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
   end
 
   defp error_response(socket, error_message) do
-    changeset = Ecto.Changeset.add_error(socket.assigns.changeset, :plate, error_message)
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.add_error(:plate, error_message)
+      |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
