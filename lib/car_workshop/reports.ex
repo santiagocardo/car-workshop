@@ -7,6 +7,7 @@ defmodule CarWorkshop.Reports do
   alias CarWorkshop.Repo
 
   alias CarWorkshop.Reports.Report
+  alias CarWorkshop.WorkOrders.WorkOrder
 
   @doc """
   Returns the list of reports.
@@ -52,13 +53,14 @@ defmodule CarWorkshop.Reports do
     |> Repo.all()
   end
 
-  def find_reports(query_opts, date) do
+  def find_reports(query_opts, date, mechanic) do
     from(r in Report,
       where: ^query_opts,
       order_by: [desc: r.id],
       limit: 20
     )
     |> maybe_put_date_filter(date)
+    |> maybe_put_mechanic_filter(mechanic)
     |> Repo.all()
   end
 
@@ -133,5 +135,13 @@ defmodule CarWorkshop.Reports do
     datetime = date <> " 00:00:00"
 
     where(query, [r], r.updated_at > ^datetime)
+  end
+
+  defp maybe_put_mechanic_filter(query, ""), do: query
+
+  defp maybe_put_mechanic_filter(query, mechanic) do
+    join(query, :inner, [r], w in WorkOrder,
+      on: r.work_order_id == w.id and w.mechanic == ^mechanic
+    )
   end
 end
