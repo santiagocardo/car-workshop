@@ -37,7 +37,11 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
   end
 
   defp maybe_validate_and_save_work_order(socket, :edit, work_order_params) do
-    work_order_params = map_services(work_order_params)
+    work_order_params =
+      map_services(
+        work_order_params,
+        socket.assigns.work_order.work_order_services
+      )
 
     save_work_order(socket, :edit, work_order_params)
   end
@@ -48,7 +52,11 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
         error_response(socket, "ya hay una orden en proceso para este vehículo")
 
       _ ->
-        work_order_params = map_services(work_order_params)
+        work_order_params =
+          map_services(
+            work_order_params,
+            socket.assigns.work_order.work_order_services
+          )
 
         save_work_order(socket, :new, work_order_params)
     end
@@ -74,20 +82,27 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
     end
   end
 
-  defp map_services(work_order_params) do
+  defp map_services(work_order_params, services) do
+    price_list = Enum.map(services, &%{id: &1.id, price: &1.price})
+
     work_order_services =
       work_order_params["work_order_services"]
       |> Map.values()
       |> Enum.filter(&(&1["checked"] == "true" and &1["qty"] != ""))
       |> Enum.map(fn ser ->
+        service_id = String.to_integer(ser["id"])
+
         %{
-          service_id: String.to_integer(ser["id"]),
-          qty: String.to_integer(ser["qty"])
+          service_id: service_id,
+          qty: String.to_integer(ser["qty"]),
+          cost:
+            price_list
+            |> Enum.find(&(&1.id == service_id))
+            |> Map.get(:price)
         }
       end)
 
-    work_order_params
-    |> Map.put("work_order_services", work_order_services)
+    Map.put(work_order_params, "work_order_services", work_order_services)
   end
 
   defp error_response(socket, error_message) do

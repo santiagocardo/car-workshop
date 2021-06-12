@@ -14,7 +14,7 @@ defmodule CarWorkshopWeb.ReportLive.Show do
 
     total =
       report.work_order.work_order_services
-      |> Enum.reduce(0, &(&1.qty * &1.service.price + &2))
+      |> Enum.reduce(0, &(&1.qty * &1.cost + &2))
 
     {:noreply,
      socket

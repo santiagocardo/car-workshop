@@ -28,7 +28,6 @@ defmodule CarWorkshopWeb.ReportLive.Index do
       |> Map.to_list()
       |> Enum.filter(fn {_key, value} -> value != "" end)
       |> Enum.map(fn {key, value} -> {String.to_atom(key), value} end)
-      |> IO.inspect()
 
     reports = Reports.find_reports(query_opts, report_params["date"])
 
