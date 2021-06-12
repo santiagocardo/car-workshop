@@ -18,7 +18,7 @@ defmodule CarWorkshopWeb.Router do
   scope "/", CarWorkshopWeb do
     pipe_through [:browser, :authenticate_user]
 
-    live "/", PageLive, :index
+    live "/", VehicleLive.Index, :new
 
     live "/vehicles/new", VehicleLive.Index, :new
     live "/vehicles/:id/edit", VehicleLive.Index, :edit

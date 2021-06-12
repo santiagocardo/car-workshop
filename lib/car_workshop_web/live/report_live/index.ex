@@ -22,19 +22,13 @@ defmodule CarWorkshopWeb.ReportLive.Index do
 
   @impl true
   def handle_event("search", %{"report" => report_params}, socket) do
-    query_opts =
+    reports =
       report_params
       |> Map.drop(["date", "mechanic"])
       |> Map.to_list()
       |> Enum.filter(fn {_key, value} -> value != "" end)
       |> Enum.map(fn {key, value} -> {String.to_atom(key), value} end)
-
-    reports =
-      Reports.find_reports(
-        query_opts,
-        report_params["date"],
-        report_params["mechanic"]
-      )
+      |> Reports.find_reports(report_params["date"], report_params["mechanic"])
 
     {:noreply, assign(socket, :reports, reports)}
   end

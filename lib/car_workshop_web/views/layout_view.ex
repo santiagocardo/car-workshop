@@ -2,8 +2,7 @@ defmodule CarWorkshopWeb.LayoutView do
   use CarWorkshopWeb, :view
 
   def count_vehicles() do
-    CarWorkshop.Vehicles.list_vehicles()
-    |> Enum.count()
+    CarWorkshop.Vehicles.count_vehicles()
   end
 
   def count_work_orders() do

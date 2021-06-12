@@ -21,6 +21,8 @@ defmodule CarWorkshop.Vehicles do
     Repo.all(Vehicle)
   end
 
+  def count_vehicles, do: Repo.one(from v in Vehicle, select: fragment("count(*)"))
+
   @doc """
   Gets a single vehicle.
 

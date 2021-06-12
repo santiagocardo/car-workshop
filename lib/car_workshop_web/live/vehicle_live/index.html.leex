@@ -7,14 +7,14 @@
           title: "Registrar Vehículo",
           action: @live_action,
           vehicle: @vehicle,
-          return_to: Routes.page_path(@socket, :index) %>
+          return_to: Routes.vehicle_index_path(@socket, :new) %>
       <% else %>
         <%= live_component @socket, CarWorkshopWeb.CustomerComponent,
           id: @customer.id || :new,
           title: "Registrar Usuario",
           action: @live_action,
           customer: @customer,
-          return_to: Routes.page_path(@socket, :index) %>
+          return_to: Routes.vehicle_index_path(@socket, :new) %>
       <% end %>
     </div>
   </div>
