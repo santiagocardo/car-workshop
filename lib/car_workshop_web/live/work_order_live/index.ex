@@ -18,9 +18,10 @@ defmodule CarWorkshopWeb.WorkOrderLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    with work_order = %WorkOrder{is_completed: true} <- WorkOrders.get_work_order!(id) do
-      push_redirect(socket, to: Routes.work_order_show_path(socket, :show, work_order))
-    else
+    case WorkOrders.get_work_order!(id) do
+      completed_work_order = %WorkOrder{is_completed: true} ->
+        push_redirect(socket, to: Routes.work_order_show_path(socket, :show, completed_work_order))
+
       work_order ->
         current_services =
           work_order.work_order_services

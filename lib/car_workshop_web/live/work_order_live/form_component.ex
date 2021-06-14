@@ -25,7 +25,7 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
 
   @impl true
   def handle_event("save", %{"work_order" => work_order_params}, socket) do
-    work_order_params = with_upcased_plate(work_order_params)
+    work_order_params = Map.update!(work_order_params, "plate", &String.upcase/1)
 
     case Vehicles.get_vehicle_by_plate(work_order_params["plate"]) do
       nil ->
@@ -91,14 +91,12 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
       |> Enum.filter(&(&1["checked"] == "true" and &1["qty"] != ""))
       |> Enum.map(fn ser ->
         service_id = String.to_integer(ser["id"])
+        %{price: price} = Enum.find(price_list, &(&1.id == service_id))
 
         %{
           service_id: service_id,
           qty: String.to_integer(ser["qty"]),
-          cost:
-            price_list
-            |> Enum.find(&(&1.id == service_id))
-            |> Map.get(:price)
+          cost: price
         }
       end)
 
@@ -112,9 +110,5 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
-  end
-
-  def with_upcased_plate(work_order_params) do
-    Map.update!(work_order_params, "plate", &String.upcase/1)
   end
 end

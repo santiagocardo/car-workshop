@@ -54,26 +54,14 @@ defmodule CarWorkshopWeb.VehicleComponent do
 
   @impl true
   def handle_event("save", %{"vehicle" => vehicle_params}, socket) do
-    with %Ecto.Changeset{errors: []} = changeset <- validate_changeset(vehicle_params, socket) do
-      vehicle_params = with_upcased_plate(vehicle_params)
+    case validate_changeset(vehicle_params, socket) do
+      %Ecto.Changeset{errors: []} ->
+        vehicle_params = Map.update!(vehicle_params, "plate", &String.upcase/1)
 
-      case WorkOrders.get_work_order_by_plate(vehicle_params["plate"]) do
-        %WorkOrders.WorkOrder{is_completed: false} ->
-          changeset =
-            Ecto.Changeset.add_error(
-              changeset,
-              :plate,
-              "este vehículo tiene una orden de trabajo en proceso"
-            )
+        register_vehicle(vehicle_params, socket)
 
-          {:noreply, assign(socket, :changeset, changeset)}
+        {:noreply, socket}
 
-        _ ->
-          register_vehicle(vehicle_params, socket)
-
-          {:noreply, socket}
-      end
-    else
       changeset ->
         {:noreply, assign(socket, changeset: changeset)}
     end
@@ -119,9 +107,5 @@ defmodule CarWorkshopWeb.VehicleComponent do
     socket.assigns.vehicle
     |> Vehicles.change_vehicle(vehicle_params)
     |> Map.put(:action, :validate)
-  end
-
-  def with_upcased_plate(vehicle_params) do
-    Map.update!(vehicle_params, "plate", &String.upcase/1)
   end
 end
