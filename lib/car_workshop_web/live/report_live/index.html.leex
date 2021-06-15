@@ -95,6 +95,24 @@
         </div>
       </form>
 
+      <div class="text-center p-4">
+        <%= if @page > 1 do %>
+          <button phx-click="page-search" phx-value-page="<%= @page - 1 %>" class="sm:m-2 text-center sm:w-auto bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">◀︎</button>
+        <% end %>
+
+        <%= for i <- (@page - 1)..(unless Enum.count(@reports) < 20, do: @page + 1, else: @page), i > 0 do %>
+          <%= if i == @page do %>
+            <button phx-click="page-search" phx-value-page="<%= i %>" class="sm:m-2 text-center sm:w-auto bg-blue-700 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"><%= i %></button>
+          <% else %>
+            <button phx-click="page-search" phx-value-page="<%= i %>" class="sm:m-2 text-center sm:w-auto bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"><%= i %></button>
+          <% end %>
+        <% end %>
+
+        <%= unless Enum.count(@reports) < 20 do %>
+          <button phx-click="page-search" phx-value-page="<%= @page + 1 %>" class="sm:m-2 text-center sm:w-auto bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">►</button>
+        <% end %>
+      </div>
+
       <div class="block w-full overflow-x-auto">
         <!-- table -->
         <table class="items-center w-full bg-transparent border-collapse">

@@ -9,6 +9,8 @@ defmodule CarWorkshop.Reports do
   alias CarWorkshop.Reports.Report
   alias CarWorkshop.WorkOrders.WorkOrder
 
+  @search_limit 20
+
   @doc """
   Returns the list of reports.
 
@@ -19,7 +21,7 @@ defmodule CarWorkshop.Reports do
 
   """
   def list_reports do
-    from(r in Report, order_by: [desc: r.id], limit: 20)
+    from(r in Report, order_by: [desc: r.id], limit: @search_limit)
     |> Repo.all()
   end
 
@@ -48,16 +50,19 @@ defmodule CarWorkshop.Reports do
     from(r in Report,
       where: r.plate == ^plate,
       order_by: [desc: r.id],
-      limit: 50
+      limit: @search_limit
     )
     |> Repo.all()
   end
 
-  def find_reports(query_opts, date, mechanic) do
+  def find_reports(query_opts, date, mechanic, page) do
+    offset = if page == 1, do: 0, else: (page - 1) * @search_limit
+
     from(r in Report,
       where: ^query_opts,
       order_by: [desc: r.id],
-      limit: 20
+      offset: ^offset,
+      limit: @search_limit
     )
     |> maybe_put_date_filter(date)
     |> maybe_put_mechanic_filter(mechanic)

@@ -8,7 +8,13 @@ defmodule CarWorkshopWeb.ReportLive.Index do
   def mount(_params, _session, socket) do
     changeset = Reports.change_report(%Report{})
 
-    {:ok, assign(socket, reports: list_reports(), changeset: changeset)}
+    {:ok,
+     assign(socket,
+       changeset: changeset,
+       reports: list_reports(),
+       report_params: %{},
+       page: 1
+     )}
   end
 
   @impl true
@@ -22,15 +28,17 @@ defmodule CarWorkshopWeb.ReportLive.Index do
 
   @impl true
   def handle_event("search", %{"report" => report_params}, socket) do
-    reports =
-      report_params
-      |> Map.drop(["date", "mechanic"])
-      |> Map.to_list()
-      |> Enum.filter(fn {_key, value} -> value != "" end)
-      |> Enum.map(fn {key, value} -> {String.to_atom(key), value} end)
-      |> Reports.find_reports(report_params["date"], report_params["mechanic"])
+    reports = find_reports(report_params, 1)
 
-    {:noreply, assign(socket, :reports, reports)}
+    {:noreply, assign(socket, reports: reports, report_params: report_params, page: 1)}
+  end
+
+  @impl true
+  def handle_event("page-search", %{"page" => page}, socket) do
+    page = String.to_integer(page)
+    reports = find_reports(socket.assigns.report_params, page)
+
+    {:noreply, assign(socket, reports: reports, page: page)}
   end
 
   @impl true
@@ -44,4 +52,15 @@ defmodule CarWorkshopWeb.ReportLive.Index do
   defp list_reports do
     Reports.list_reports()
   end
+
+  defp find_reports(%{"date" => date, "mechanic" => mechanic} = report_params, page) do
+    report_params
+    |> Map.drop(["date", "mechanic"])
+    |> Map.to_list()
+    |> Enum.filter(fn {_key, value} -> value != "" end)
+    |> Enum.map(fn {key, value} -> {String.to_atom(key), value} end)
+    |> Reports.find_reports(date, mechanic, page)
+  end
+
+  defp find_reports(_, page), do: Reports.find_reports([], "", "", page)
 end
