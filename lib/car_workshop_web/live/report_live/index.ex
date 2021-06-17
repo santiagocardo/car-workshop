@@ -28,7 +28,7 @@ defmodule CarWorkshopWeb.ReportLive.Index do
 
   @impl true
   def handle_event("search", %{"report" => report_params}, socket) do
-    reports = find_reports(report_params, 1)
+    reports = search_reports(report_params, 1)
 
     {:noreply, assign(socket, reports: reports, report_params: report_params, page: 1)}
   end
@@ -36,7 +36,7 @@ defmodule CarWorkshopWeb.ReportLive.Index do
   @impl true
   def handle_event("page-search", %{"page" => page}, socket) do
     page = String.to_integer(page)
-    reports = find_reports(socket.assigns.report_params, page)
+    reports = search_reports(socket.assigns.report_params, page)
 
     {:noreply, assign(socket, reports: reports, page: page)}
   end
@@ -53,14 +53,22 @@ defmodule CarWorkshopWeb.ReportLive.Index do
     Reports.list_reports()
   end
 
-  defp find_reports(%{"date" => date, "mechanic" => mechanic} = report_params, page) do
+  defp search_reports(%{"mechanic" => _} = report_params, page) do
+    esp_attrs = ["date_since", "date_until", "mechanic"]
+
+    esp_opts =
+      report_params
+      |> Map.take(esp_attrs)
+      |> Map.update!("mechanic", &String.upcase/1)
+
     report_params
-    |> Map.drop(["date", "mechanic"])
+    |> Map.drop(esp_attrs)
+    |> Map.update!("plate", &String.upcase/1)
     |> Map.to_list()
     |> Enum.filter(fn {_key, value} -> value != "" end)
     |> Enum.map(fn {key, value} -> {String.to_atom(key), value} end)
-    |> Reports.find_reports(date, mechanic, page)
+    |> Reports.search_reports(esp_opts, page)
   end
 
-  defp find_reports(_, page), do: Reports.find_reports([], "", "", page)
+  defp search_reports(_, page), do: Reports.search_reports([], nil, page)
 end

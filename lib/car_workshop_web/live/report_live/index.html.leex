@@ -88,8 +88,12 @@
               %>
             </div>
             <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
-              <%= label f, :date, "Fecha Desde", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
-              <%= date_input f, :date, class: "border-0 p-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
+              <%= label f, :date_since, "Fecha Desde", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
+              <%= date_input f, :date_since, class: "border-0 p-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
+            </div>
+            <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4">
+              <%= label f, :date_until, "Fecha Hasta", class: "block uppercase text-gray-600 text-xs font-bold mb-2" %>
+              <%= date_input f, :date_until, class: "border-0 p-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" %>
             </div>
           </div>
         </div>

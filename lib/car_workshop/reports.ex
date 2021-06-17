@@ -55,7 +55,21 @@ defmodule CarWorkshop.Reports do
     |> Repo.all()
   end
 
-  def find_reports(query_opts, date, mechanic, page) do
+  def search_reports(query_opts, nil, page), do: find_reports(query_opts, page, & &1)
+
+  def search_reports(query_opts, esp_opts, page) do
+    filter_func = fn query ->
+      query
+      |> maybe_put_todays_filter(esp_opts)
+      |> maybe_put_date_since_filter(esp_opts)
+      |> maybe_put_date_until_filter(esp_opts)
+      |> maybe_put_mechanic_filter(esp_opts)
+    end
+
+    find_reports(query_opts, page, filter_func)
+  end
+
+  def find_reports(query_opts, page, func) do
     offset = if page == 1, do: 0, else: (page - 1) * @search_limit
 
     from(r in Report,
@@ -64,8 +78,7 @@ defmodule CarWorkshop.Reports do
       offset: ^offset,
       limit: @search_limit
     )
-    |> maybe_put_date_filter(date)
-    |> maybe_put_mechanic_filter(mechanic)
+    |> func.()
     |> Repo.all()
   end
 
@@ -134,17 +147,33 @@ defmodule CarWorkshop.Reports do
     Report.changeset(report, attrs)
   end
 
-  defp maybe_put_date_filter(query, ""), do: query
+  def maybe_put_todays_filter(query, %{"date_since" => "", "date_until" => ""}) do
+    date = Date.utc_today()
 
-  defp maybe_put_date_filter(query, date) do
-    datetime = date <> " 00:00:00"
-
-    where(query, [r], r.updated_at > ^datetime)
+    where(query, [r], fragment("?::date", r.updated_at) == ^date)
   end
 
-  defp maybe_put_mechanic_filter(query, ""), do: query
+  def maybe_put_todays_filter(query, _), do: query
 
-  defp maybe_put_mechanic_filter(query, mechanic) do
+  defp maybe_put_date_since_filter(query, %{"date_since" => ""}), do: query
+
+  defp maybe_put_date_since_filter(query, %{"date_since" => date}) do
+    datetime = Date.from_iso8601!(date)
+
+    where(query, [r], fragment("?::date", r.updated_at) >= ^datetime)
+  end
+
+  defp maybe_put_date_until_filter(query, %{"date_until" => ""}), do: query
+
+  defp maybe_put_date_until_filter(query, %{"date_until" => date}) do
+    datetime = Date.from_iso8601!(date)
+
+    where(query, [r], fragment("?::date", r.updated_at) <= ^datetime)
+  end
+
+  defp maybe_put_mechanic_filter(query, %{"mechanic" => ""}), do: query
+
+  defp maybe_put_mechanic_filter(query, %{"mechanic" => mechanic}) do
     join(query, :inner, [r], w in WorkOrder,
       on: r.work_order_id == w.id and w.mechanic == ^mechanic
     )
