@@ -25,7 +25,10 @@ defmodule CarWorkshopWeb.WorkOrderLive.FormComponent do
 
   @impl true
   def handle_event("save", %{"work_order" => work_order_params}, socket) do
-    work_order_params = Map.update!(work_order_params, "plate", &String.upcase/1)
+    work_order_params =
+      work_order_params
+      |> Map.update!("plate", &String.upcase/1)
+      |> Map.update!("mechanic", &String.upcase/1)
 
     case Vehicles.get_vehicle_by_plate(work_order_params["plate"]) do
       nil ->

@@ -19,7 +19,7 @@ defmodule CarWorkshopWeb.ServiceLive.Index do
     |> assign(:service, Services.get_service!(id))
   end
 
-  defp apply_action(socket, :new, params) do
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "Nuevo Servicio")
     |> assign(:service, %Services.Service{})
