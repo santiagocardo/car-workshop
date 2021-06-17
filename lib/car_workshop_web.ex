@@ -92,6 +92,9 @@ defmodule CarWorkshopWeb do
       import CarWorkshopWeb.ErrorHelpers
       import CarWorkshopWeb.Gettext
       alias CarWorkshopWeb.Router.Helpers, as: Routes
+
+      def money(money),
+        do: :erlang.float_to_binary(money, [:compact, {:decimals, 2}])
     end
   end
 

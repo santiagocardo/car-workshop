@@ -5,7 +5,10 @@ defmodule CarWorkshopWeb.ServiceLive.FormComponent do
 
   @impl true
   def update(%{service: service} = assigns, socket) do
-    changeset = Services.change_service(service)
+    changeset =
+      service
+      |> Map.update!(:price, &money/1)
+      |> Services.change_service()
 
     {:ok,
      socket
