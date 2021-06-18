@@ -80,10 +80,19 @@
               </li>
 
               <li class="items-center">
+                <%= live_redirect to: Routes.vehicle_list_path(@conn, :index) do %>
+                  <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
+                    <i class="fas fa-list mr-2 text-sm text-gray-300"></i>
+                    Listado
+                  </div>
+                <% end %>
+              </li>
+
+              <li class="items-center">
                 <%= live_redirect to: Routes.work_order_index_path(@conn, :index) do %>
                   <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
                     <i class="fas fa-tools mr-2 text-sm opacity-75"></i>
-                    Orden de trabajo
+                    Órdenes de trabajo
                   </div>
                 <% end %>
               </li>

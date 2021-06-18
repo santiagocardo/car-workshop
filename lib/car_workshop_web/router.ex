@@ -19,12 +19,10 @@ defmodule CarWorkshopWeb.Router do
     pipe_through [:browser, :authenticate_user]
 
     live "/", VehicleLive.Index, :new
-
     live "/vehicles/new", VehicleLive.Index, :new
-    live "/vehicles/:id/edit", VehicleLive.Index, :edit
 
+    live "/vehicles", VehicleLive.List, :index
     live "/vehicles/:id", VehicleLive.Show, :show
-    live "/vehicles/:id/show/edit", VehicleLive.Show, :edit
 
     live "/work-orders", WorkOrderLive.Index, :index
     live "/work-orders/new", WorkOrderLive.Index, :new

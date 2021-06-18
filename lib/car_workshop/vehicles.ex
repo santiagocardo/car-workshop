@@ -18,7 +18,8 @@ defmodule CarWorkshop.Vehicles do
 
   """
   def list_vehicles do
-    Repo.all(Vehicle)
+    from(v in Vehicle, order_by: [desc: v.updated_at])
+    |> Repo.all()
   end
 
   def count_vehicles, do: Repo.one(from v in Vehicle, select: fragment("count(*)"))
@@ -37,7 +38,10 @@ defmodule CarWorkshop.Vehicles do
       ** (Ecto.NoResultsError)
 
   """
-  def get_vehicle!(id), do: Repo.get!(Vehicle, id)
+  def get_vehicle!(id) do
+    Repo.get!(Vehicle, id)
+    |> Repo.preload(:customer)
+  end
 
   def get_vehicle_by_plate(plate) do
     Vehicle
