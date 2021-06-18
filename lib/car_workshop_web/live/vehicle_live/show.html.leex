@@ -5,14 +5,15 @@
       <div class="rounded-t bg-white p-6">
         <div class="flex justify-between">
           <h6 class="text-center text-gray-700 text-xl font-bold">
-            Vehículo <%= @vehicle.plate %>
+            Vehículo: <%= @vehicle.brand %> <%= @vehicle.model %> <%= @vehicle.color %>
           </h6>
         </div>
       </div>
 
       <%= live_component @socket, CarWorkshopWeb.ShowVehicleComponent,
         id: @vehicle.plate,
-        vehicle: @vehicle
+        vehicle: @vehicle,
+        hide_hr: true
       %>
 
     </div>

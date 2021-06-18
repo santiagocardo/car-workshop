@@ -10,7 +10,9 @@ defmodule CarWorkshopWeb.ShowVehicleComponent do
   def render(assigns) do
     ~L"""
     <div class="flex-auto px-4 lg:px-10 pb-10">
-      <hr class="mt-6 border-b-1 border-gray-300" />
+      <%= unless assigns[:hide_hr] do %>
+        <hr class="mt-6 border-b-1 border-gray-300" />
+      <% end %>
 
       <h6 class="text-gray-400 text-sm mt-3 mb-6 font-bold uppercase">
         Información del Vehículo

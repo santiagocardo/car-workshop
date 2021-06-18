@@ -60,7 +60,6 @@ defmodule CarWorkshop.Reports do
   def search_reports(query_opts, esp_opts, page) do
     filter_func = fn query ->
       query
-      |> maybe_put_todays_filter(esp_opts)
       |> maybe_put_date_since_filter(esp_opts)
       |> maybe_put_date_until_filter(esp_opts)
       |> maybe_put_mechanic_filter(esp_opts)
@@ -146,14 +145,6 @@ defmodule CarWorkshop.Reports do
   def change_report(%Report{} = report, attrs \\ %{}) do
     Report.changeset(report, attrs)
   end
-
-  def maybe_put_todays_filter(query, %{"date_since" => "", "date_until" => ""}) do
-    date = Date.utc_today()
-
-    where(query, [r], fragment("?::date", r.updated_at) == ^date)
-  end
-
-  def maybe_put_todays_filter(query, _), do: query
 
   defp maybe_put_date_since_filter(query, %{"date_since" => ""}), do: query
 

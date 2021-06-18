@@ -11,7 +11,6 @@ defmodule CarWorkshopWeb.VehicleLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     vehicle = Vehicles.get_vehicle!(id)
-    IO.inspect(vehicle)
 
     {:noreply,
      socket
