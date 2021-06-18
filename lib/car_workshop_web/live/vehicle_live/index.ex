@@ -25,7 +25,9 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
       |> String.split(",")
       |> Enum.map(fn id -> "https://drive.google.com/uc?id=#{id}" end)
 
-    {:noreply, assign(socket, photos_urls: photos_urls, view_to_show: :customer_view)}
+    vehicle_params = Map.put(socket.assigns.vehicle_params, "photos", photos_urls)
+
+    {:noreply, assign(socket, vehicle_params: vehicle_params, view_to_show: :customer_view)}
   end
 
   @impl true
@@ -37,21 +39,9 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
     do: {:noreply, assign(socket, vehicle_params: vehicle_params, view_to_show: :vehicle_view)}
 
   @impl true
-  def handle_info(
-        {:vehicle, vehicle_params, :no_photos_uploaded},
-        %{assigns: %{live_action: :new}} = socket
-      ) do
-    {:noreply,
-     assign(socket,
-       vehicle_params: vehicle_params,
-       photos_urls: [],
-       view_to_show: :customer_view
-     )}
+  def handle_info({:vehicle, vehicle_params, :no_photos_uploaded}, socket) do
+    {:noreply, assign(socket, vehicle_params: vehicle_params, view_to_show: :customer_view)}
   end
-
-  @impl true
-  def handle_info({:vehicle, vehicle_params, :no_photos_uploaded}, socket),
-    do: {:noreply, assign(socket, vehicle_params: vehicle_params, view_to_show: :customer_view)}
 
   @impl true
   def handle_info({:customer, customer, :existing}, socket),
@@ -61,10 +51,7 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
   def handle_info({:customer, customer_params, :save}, socket) do
     case Accounts.register_customer(customer_params) do
       {:ok, customer} ->
-        vehicle_params =
-          socket.assigns.vehicle_params
-          |> Map.put("customer_id", customer.id)
-          |> Map.put("photos", socket.assigns.photos_urls)
+        vehicle_params = Map.put(socket.assigns.vehicle_params, "customer_id", customer.id)
 
         case Vehicles.register_vehicle(vehicle_params) do
           {:ok, vehicle} ->
@@ -80,16 +67,13 @@ defmodule CarWorkshopWeb.VehicleLive.Index do
     end
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Editar Vehículo")
-    |> assign(:vehicle, Vehicles.get_vehicle!(id))
-  end
+  defp apply_action(socket, :new, params) do
+    vehicle_attrs = Enum.into(params, %{}, fn {k, v} -> {String.to_atom(k), v} end)
+    vehicle = Map.merge(%Vehicle{}, vehicle_attrs)
 
-  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "Registrar Vehículo")
-    |> assign(:vehicle, %Vehicle{})
+    |> assign(:vehicle, vehicle)
     |> assign(:customer, %Customer{})
   end
 end

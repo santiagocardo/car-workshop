@@ -1,7 +1,7 @@
 defmodule CarWorkshopWeb.VehicleComponent do
   use CarWorkshopWeb, :live_component
 
-  alias CarWorkshop.{Vehicles, WorkOrders}
+  alias CarWorkshop.Vehicles
 
   @impl true
   def mount(socket) do
