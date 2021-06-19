@@ -117,17 +117,18 @@
         <% end %>
       </div>
 
-      <div id="printable-report-list" class="block w-full overflow-x-auto">
-        <div class="rounded-t bg-white p-6">
-          <div class="flex flex-wrap justify-between items-center">
-            <h1 class="w-full sm:w-auto text-center text-gray-700 text-lg font-bold">
-              Reportes Encontrados
-            </h1>
-            <button onclick="window.printDoc('printable-report-list')" class="my-2 sm:my-0 text-center w-full sm:w-auto bg-gray-500 text-white hover:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
-              Imprimir
-            </button>
-          </div>
+      <div class="rounded-t bg-white p-6">
+        <div class="flex flex-wrap justify-between items-center">
+          <h1 class="w-full sm:w-auto text-center text-gray-700 text-lg font-bold">
+            Reportes Encontrados
+          </h1>
+          <button onclick="window.printDoc('printable-report-list')" class="my-2 sm:my-0 text-center w-full sm:w-auto bg-gray-500 text-white hover:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150">
+            Imprimir
+          </button>
         </div>
+      </div>
+
+      <div id="printable-report-list" class="block w-full overflow-x-auto">
         <!-- table -->
         <table class="items-center w-full bg-transparent border-collapse">
           <thead>

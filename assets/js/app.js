@@ -61,5 +61,8 @@ window.printDoc = function (divName) {
   window.print()
 
   document.body.innerHTML = originalContents
+}
+
+window.onafterprint = function () {
   window.location.reload()
 }
