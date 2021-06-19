@@ -51,3 +51,15 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
+
+window.printDoc = function (divName) {
+  const printContents = document.getElementById(divName).innerHTML
+  const originalContents = document.body.innerHTML
+
+  document.body.innerHTML = printContents
+
+  window.print()
+
+  document.body.innerHTML = originalContents
+  window.location.reload()
+}

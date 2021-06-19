@@ -18,7 +18,7 @@ defmodule CarWorkshopWeb.ReportLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, "Ver Reporte #{id}")
+     |> assign(:page_title, "Ver Reporte ##{id}")
      |> assign(:report, report)
      |> assign(:total, total)}
   end
