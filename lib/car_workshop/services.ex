@@ -18,7 +18,7 @@ defmodule CarWorkshop.Services do
 
   """
   def list_services do
-    from(s in Service, where: s.is_deleted == false, order_by: [desc: s.id])
+    from(s in Service, where: s.is_deleted == false, order_by: [asc: s.name])
     |> Repo.all()
 
     # |> Enum.map(&{&1.name, &1.id})

@@ -124,7 +124,12 @@
                   </div>
                 <% end %>
               </li>
+            </ul>
 
+            <!-- Divider -->
+            <hr class="my-4 md:min-w-full" />
+            <!-- Navigation -->
+            <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li class="items-center">
                 <%= link to: Routes.session_path(@conn, :delete, @current_user), method: "delete" do %>
                   <div class="text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-500">
@@ -141,10 +146,10 @@
         <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
           <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
             <span class="text-white text-sm uppercase hidden lg:inline-block font-semibold">
-              Hola, <%= @conn.assigns.current_user.name %>
+              Tecnicentro para Autos S.A.S
             </span>
             <div class="items-center hidden md:flex">
-              <span class="w-12 h-12 text-sm text-white bg-gray-200 inline-flex items-center justify-center rounded-full">
+              <span class="w-16 h-16 text-sm text-white bg-gray-200 inline-flex items-center justify-center rounded-full">
                 <img
                   alt="logo"
                   class="w-full rounded-full align-middle border-none shadow-lg"
