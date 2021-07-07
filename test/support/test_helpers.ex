@@ -101,6 +101,6 @@ defmodule CarWorkshopWeb.TestHelpers do
 
   defp default_report() do
     default_vehicle()
-    |> Map.put(:customer_identity_number, 999_999)
+    |> Map.put(:customer_identity_number, 9_999_999)
   end
 end
