@@ -32,7 +32,7 @@ defmodule CarWorkshopWeb.WorkOrderLive.Index do
           |> Enum.map(fn s -> Enum.find(current_services, s, &(&1.id == s.id)) end)
 
         socket
-        |> assign(:page_title, "Editar Orden de Trabajo ##{id}")
+        |> assign(:page_title, "Editar Órden de Trabajo ##{id}")
         |> assign(:work_order, Map.put(work_order, :work_order_services, services_to_show))
     end
   end

@@ -96,7 +96,7 @@ defmodule CarWorkshopWeb.TestHelpers do
   end
 
   defp default_work_order() do
-    %{mechanic: "some mechanic", plate: "some plate", is_completed: false}
+    %{mechanic: "some mechanic", plate: "BMA809", is_completed: false}
   end
 
   defp default_report() do
