@@ -62,8 +62,10 @@ defmodule CarWorkshop.Vehicles do
 
   """
   def register_vehicle(attrs \\ %{}, after_save_cb \\ &{:ok, &1}) do
+    plate = attrs["plate"] || ""
+
     vehicle =
-      case get_vehicle_by_plate(attrs["plate"]) do
+      case get_vehicle_by_plate(plate) do
         nil ->
           %Vehicle{}
           |> Vehicle.register_changeset(attrs)

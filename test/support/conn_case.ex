@@ -23,6 +23,7 @@ defmodule CarWorkshopWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import CarWorkshopWeb.ConnCase
+      import CarWorkshopWeb.TestHelpers
 
       alias CarWorkshopWeb.Router.Helpers, as: Routes
 

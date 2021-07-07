@@ -53,7 +53,9 @@ defmodule CarWorkshop.Accounts do
 
   """
   def register_customer(attrs \\ %{}) do
-    case get_customer_by_identity_number(attrs["identity_number"]) do
+    idn = attrs["identity_number"] || 0
+
+    case get_customer_by_identity_number(idn) do
       nil ->
         %Customer{}
         |> Customer.changeset(attrs)
